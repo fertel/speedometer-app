@@ -1,6 +1,6 @@
-import { Location, Permissions } from 'expo';
+import { KeepAwake, Location, Permissions } from 'expo';
 import React, { Component } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { Compass } from './compass';
 import { GEOLOCATION_OPTIONS } from '../config/config';
@@ -56,6 +56,7 @@ class App extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
+                <KeepAwake />
                 <Compass
                     style={{ flex: 1 }}
                     heading={heading}
