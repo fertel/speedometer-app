@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Speedometer",
+    "description": "A simple speedometer",
+    "slug": "speedometer",
+    "privacy": "public",
+    "sdkVersion": "21.0.0",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "./app/assets/icons/app-icon.png",
+    "loading": {
+      "icon": "./app/assets/icons/loading-icon.png"
+    },
+    "packagerOpts": {
+      "assetExts": ["otf", "ttf", "mp4"]
+    },
+    "ios": {
+      "buildNumber": "8",
+      "bundleIdentifier": "io.breadbox.speedometer",
+      "icon": "./app/assets/icons/app-icon.png",
+      "isRemoteJSEnabled": false,
+      "supportsTablet": false
+    }
+  }
+}
