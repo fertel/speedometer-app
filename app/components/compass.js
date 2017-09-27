@@ -21,12 +21,6 @@ const styles = StyleSheet.create({
     directionContainer: {
         flex: 1,
         flexDirection: 'row'
-    },
-    text: {
-        color: Variables.colors.white,
-        fontFamily: Variables.fonts.sansSerif.bold,
-        fontSize: Variables.fontSizes.medium,
-        lineHeight: Variables.lineHeights.medium
     }
 });
 
@@ -41,28 +35,28 @@ export class Compass extends Component {
                     <View style={styles.direction}>
                         <CompassDirection
                             value={'N'}
-                            active={heading <= 45 || heading >= 315}
+                            active={(heading <= 55 && heading >= 0)|| heading >= 305}
                             activeColor={Variables.colors.secondary}
                         />
                     </View>
                     <View style={styles.direction}>
                         <CompassDirection
                             value={'E'}
-                            active={heading >= 45 && heading <= 135}
+                            active={heading >= 35 && heading <= 145}
                             activeColor={Variables.colors.tertiary}
                         />
                     </View>
                     <View style={styles.direction}>
                         <CompassDirection
                             value={'S'}
-                            active={heading >= 135 && heading <= 225}
+                            active={heading >= 125 && heading <= 235}
                             activeColor={Variables.colors.quadrenary}
                         />
                     </View>
                     <View style={styles.direction}>
                         <CompassDirection
                             value={'W'}
-                            active={heading >= 225 && heading <= 315}
+                            active={heading >= 215 && heading <= 325}
                             activeColor={Variables.colors.warning}
                         />
                     </View>

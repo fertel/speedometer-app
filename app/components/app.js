@@ -63,7 +63,7 @@ class App extends Component {
                 <Speedometer
                     speed={speed}
                     speedMeasurement={speedMeasurement}
-                    style={{ flex: 3 }}
+                    style={{ flex: 4 }}
                     toggleSpeedMeasurement={toggleSpeedMeasurement}
                     topSpeed={topSpeed}
                 />
