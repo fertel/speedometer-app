@@ -1,4 +1,4 @@
-import { Constants, Location, Permissions } from 'expo';
+import { Location, MapView, Permissions } from 'expo';
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
@@ -70,7 +70,17 @@ class App extends Component {
                             topSpeed={topSpeed}
                         />
                     </View>
-                    <View style={styles.screen} />
+                    <View style={styles.screen}>
+                        <MapView
+                            style={{ flex: 1 }}
+                            initialRegion={{
+                                latitude: 37.78825,
+                                longitude: -122.4324,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}
+                        />
+                    </View>
                 </CubeRotateView>
             </View>
         );

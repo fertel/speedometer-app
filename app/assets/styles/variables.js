@@ -47,7 +47,7 @@ export const Variables = {
         facebook: Color('#3b5998'),
         googlePlus: Color('#f44336'),
         grey: Color('#333132').lighten(3.2),
-        primary: Color('#2c2d42'),
+        primary: Color('#333132'),
         quadrenary: Color('#ff66b2'),
         secondary: Color('#38f1e0'),
         success: Color('#18dc87'),
