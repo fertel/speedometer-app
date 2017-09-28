@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { convertMetersPerSecondToKilometersPerHour, convertMetersPerSecondToMilesPerHour } from '../util/convert-units';
+import { convertMetersToKilometers, convertMetersToMiles } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
 import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
@@ -28,7 +29,8 @@ const styles = StyleSheet.create({
         color: Variables.colors.white,
         fontFamily: Variables.fonts.sansSerif.bold,
         fontSize: Variables.fontSizes.medium,
-        lineHeight: Variables.lineHeights.medium
+        lineHeight: Variables.lineHeights.medium,
+        width: Variables.spacer.base
     },
     unitContainer: {
         paddingHorizontal: Variables.spacer.base / 4,
@@ -38,15 +40,40 @@ const styles = StyleSheet.create({
 
 export class Odometer extends Component {
 
-    // convertValue() {
-    //     const { valueMeasurement, value } = this.props;
-    //     const conversion = valueMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;
+    constructor(props) {
+        super(props);
 
-    //     return conversion(value);
-    // }
+        this.convertValue = this.convertValue.bind(this);
+        this.renderValue = this.renderValue.bind(this);
+    }
+
+    convertValue() {
+        const { distanceMeasurement, value } = this.props;
+        const conversion = distanceMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersToKilometers : convertMetersToMiles;
+
+        return conversion(value);
+    }
+
+    renderValue() {
+        const value = Math.round(this.convertValue() * 100) / 100;
+
+        let result = value.toFixed(2);
+
+        console.log('result: ', result);
+
+        switch (true) {
+            case value < 0: result = '    ' + result; break;
+            case value < 10: result = '   ' + result; break;
+            case value < 100: result = '  ' + result; break;
+            case value < 1000: result = ' ' + result; break;
+            case value > 9999.99: result = value; break;
+        }
+
+        return result;
+    }
 
     render() {
-        const { style, distanceMeasurement } = this.props;
+        const { distanceMeasurement, style } = this.props;
         const unit = distanceMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? 'km' : 'mi';
 
         return (
@@ -55,10 +82,12 @@ export class Odometer extends Component {
                     <View style={styles.valueContainer}>
                         <View style={{ position: 'relative' }}>
                             <Text style={[styles.value, styles.valueBackground]}>0000.00</Text>
-                            <Text style={styles.value}>{'   '}1.01</Text>
+                            <Text style={styles.value}>{this.renderValue()}</Text>
                         </View>
                     </View>
-                    <View style={styles.unitContainer}><Text style={styles.unit}>{unit.toLowerCase()}</Text></View>
+                    <View style={styles.unitContainer}>
+                        <Text style={styles.unit}>{unit.toLowerCase()}</Text>
+                    </View>
                 </View>
             </View>
         );
@@ -66,11 +95,13 @@ export class Odometer extends Component {
 }
 
 Odometer.defaultProps = {
-    distanceMeasurement: SPEED_MEASUREMENTS.MILES
+    distanceMeasurement: SPEED_MEASUREMENTS.MILES,
+    value: 0
 };
 
 Odometer.propTypes = {
     distanceMeasurement: PropTypes.number,
+    value: PropTypes.number,
     style: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.object

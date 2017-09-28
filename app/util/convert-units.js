@@ -8,3 +8,11 @@ export const convertMetersPerSecondToMilesPerHour = meters => {
 
     return milesPerHour;
 };
+
+export const convertMetersToKilometers = meters => {
+    return meters * 0.001;
+};
+
+export const convertMetersToMiles = meters => {
+    return meters * 0.000621371;
+};

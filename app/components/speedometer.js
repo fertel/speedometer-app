@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 export class Speedometer extends Component {
 
     render() {
-        const { speed, topSpeed, maxSpeed, speedMeasurement, toggleSpeedMeasurement, style } = this.props;
+        const { distanceTravelled, maxSpeed, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -48,18 +48,13 @@ export class Speedometer extends Component {
                     />
                 </View>
                 <View style={styles.absolutePosition}>
-                    <UnitSelector
-                        onPress={toggleSpeedMeasurement}
-                        speedMeasurement={speedMeasurement}
-                    />
+                    <UnitSelector onPress={toggleSpeedMeasurement} speedMeasurement={speedMeasurement} />
                     <Speed
                         color={speed > maxSpeed ? Variables.colors.danger : Variables.colors.white}
                         value={speed}
                         valueMeasurement={speedMeasurement}
                     />
-                    <Odometer
-                        distanceMeasurement={speedMeasurement}
-                    />
+                    <Odometer value={distanceTravelled} distanceMeasurement={speedMeasurement} />
                 </View>
             </View>
         );
@@ -67,12 +62,14 @@ export class Speedometer extends Component {
 }
 
 Speedometer.defaultProps = {
+    distanceTravelled: 0,
+    maxSpeed: 59, // roughly 130 MPH or 210 KM/H
     speed: 0,
-    topSpeed: 0,
-    maxSpeed: 59 // roughly 130 MPH or 210 KM/H
+    topSpeed: 0
 };
 
 Speedometer.propTypes = {
+    distanceTravelled: PropTypes.number,
     maxSpeed: PropTypes.number,
     speed: PropTypes.number,
     speedMeasurement: PropTypes.number,

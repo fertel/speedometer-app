@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 export class DashboardScreen extends Component {
 
     render() {
-        const { accuracy, heading, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -31,6 +31,7 @@ export class DashboardScreen extends Component {
                     style={{ flex: 1 }}
                 />
                 <Speedometer
+                    distanceTravelled={distanceTravelled}
                     speed={speed}
                     speedMeasurement={speedMeasurement}
                     style={{ flex: 4 }}
@@ -48,6 +49,7 @@ DashboardScreen.defaultProps = {
 
 DashboardScreen.propTypes = {
     accuracy: PropTypes.number,
+    distanceTravelled: PropTypes.number,
     heading: PropTypes.number,
     speed: PropTypes.number,
     speedMeasurement: PropTypes.number,

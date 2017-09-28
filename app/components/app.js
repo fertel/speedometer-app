@@ -63,7 +63,7 @@ class App extends Component {
 
     render() {
         const { speedMeasurement, toggleSpeedMeasurement } = this.props;
-        let { accuracy, speed, topSpeed, heading, routeCoordinates } = this.state;
+        let { accuracy, distanceTravelled, heading, routeCoordinates, speed, topSpeed } = this.state;
 
         return (
             <View style={styles.container}>
@@ -72,6 +72,7 @@ class App extends Component {
                     <View style={styles.screen}>
                         <DashboardScreen
                             accuracy={accuracy}
+                            distanceTravelled={distanceTravelled}
                             heading={heading}
                             speed={speed}
                             speedMeasurement={speedMeasurement}
