@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { CompassDirection } from './compass-direction';
 import PropTypes from 'prop-types';
@@ -67,7 +67,7 @@ export class Compass extends Component {
 }
 
 Compass.defaultProps = {
-    heading: 0
+    heading: -1 // set to -1 to prevent flash of 0 degrees of ('N') on the compass on load
 };
 
 Compass.propTypes = {

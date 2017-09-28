@@ -22,7 +22,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            heading: 0,
+            heading: -1, // set to -1 to prevent flash of 0 degrees of ('N') on the compass on load
             speed: 0,
             topSpeed: 0
         };
