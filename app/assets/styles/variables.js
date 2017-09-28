@@ -51,7 +51,7 @@ export const Variables = {
         quadrenary: Color('#ff66b2'),
         secondary: Color('#38f1e0'),
         success: Color('#18dc87'),
-        tertiary: Color('#4d46ff'),
+        tertiary: Color('#32a7ff'),
         twitter: Color('#6cadde'),
         warning: Color('#ff9c00'),
         white: Color('#fff')

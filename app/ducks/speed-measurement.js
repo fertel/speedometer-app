@@ -5,7 +5,7 @@ export const SPEED_MEASUREMENTS = {
     MILES: 1
 };
 
-const DEFAULT_STATE = { speedMeasurement: SPEED_MEASUREMENTS.KILOMETERS };
+const DEFAULT_STATE = { speedMeasurement: SPEED_MEASUREMENTS.MILES };
 
 const TOGGLE = 'speedMeasurment/TOGGLE';
 const SET = 'speedMeasurment/SET';

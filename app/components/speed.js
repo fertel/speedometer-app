@@ -1,5 +1,5 @@
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { convertMetersPerSecondToKilometersPerHour, convertMetersPerSecondToMilesPerHour } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
@@ -35,7 +35,7 @@ export class Speed extends Component {
 
         return conversion(value);
     }
-    
+
     renderValue() {
         const value = Math.round(this.convertValue());
 
@@ -60,7 +60,7 @@ export class Speed extends Component {
         return (
             <View style={styles.container}>
                 <Text style={[styles.text, styles.textBackground, { color: color }]}>000</Text>
-                <Text style={[styles.text, { color: color }]}>{this.renderValue()}</Text>
+                <Text style={[styles.text, { color }]}>{this.renderValue()}</Text>
             </View>
         );
     }

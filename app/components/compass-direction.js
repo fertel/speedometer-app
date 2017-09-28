@@ -16,11 +16,10 @@ export class CompassDirection extends Component {
 
     render() {
         const { activeColor, active, inactiveColor, style, value } = this.props;
-
         const color = active ? activeColor : inactiveColor;
 
         return (
-            <Text style={[styles.text, { color: color }, style]}>
+            <Text style={[styles.text, { color }, style]}>
                 {value.toUpperCase()}
             </Text>
         );
