@@ -72,8 +72,5 @@ Compass.defaultProps = {
 
 Compass.propTypes = {
     heading: PropTypes.number,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ])
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
 };

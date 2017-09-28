@@ -24,8 +24,5 @@ EmptyComponent.defaultProps = {
 };
 
 EmptyComponent.propTypes = {
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ])
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
 };

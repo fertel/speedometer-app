@@ -30,8 +30,8 @@ export class Speed extends Component {
     }
 
     convertValue() {
-        const { valueMeasurement, value } = this.props;
-        const conversion = valueMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;
+        const { unit, value } = this.props;
+        const conversion = unit === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;
 
         return conversion(value);
     }
@@ -69,11 +69,11 @@ export class Speed extends Component {
 Speed.defaultProps = {
     color: Variables.colors.white,
     value: 0,
-    valueMeasurement: SPEED_MEASUREMENTS.KILOMETERS
+    unit: SPEED_MEASUREMENTS.KILOMETERS
 };
 
 Speed.propTypes = {
     color: PropTypes.object,
     value: PropTypes.number,
-    valueMeasurement: PropTypes.number
+    unit: PropTypes.number
 };

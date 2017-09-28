@@ -168,8 +168,5 @@ CubeRotateView.defaultProps = {
 
 CubeRotateView.propTypes = {
     animateToIndex: PropTypes.number,
-    children: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object
-    ])
+    children: PropTypes.oneOfType([ PropTypes.array, PropTypes.object ])
 };

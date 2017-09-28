@@ -37,9 +37,6 @@ CompassDirection.propTypes = {
     active: PropTypes.bool,
     activeColor: PropTypes.object,
     inactiveColor: PropTypes.object,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ]),
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     value: PropTypes.string
 };

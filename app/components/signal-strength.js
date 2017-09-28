@@ -29,22 +29,22 @@ export class SignalStrength extends Component {
                     <SignalStrengthBar
                         active={accuracy < 40}
                         activeColor={Variables.colors.danger}
-                        style={{ height: '25%' }}
+                        heightPercentage={25}
                     />
                     <SignalStrengthBar
                         active={accuracy < 30}
                         activeColor={Variables.colors.warning}
-                        style={{ height: '50%' }}
+                        heightPercentage={50}
                     />
                     <SignalStrengthBar
                         active={accuracy < 20}
                         activeColor={Variables.colors.secondary}
-                        style={{ height: '75%' }}
+                        heightPercentage={75}
                     />
                     <SignalStrengthBar
                         active={accuracy < 10}
                         activeColor={Variables.colors.tertiary}
-                        style={{ height: '100%' }}
+                        heightPercentage={100}
                     />
                 </View>
             </View>
@@ -58,8 +58,5 @@ SignalStrength.defaultProps = {
 
 SignalStrength.propTypes = {
     accuracy: PropTypes.number,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ])
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
 };

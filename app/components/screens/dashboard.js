@@ -23,24 +23,21 @@ const styles = StyleSheet.create({
 export class DashboardScreen extends Component {
 
     render() {
-        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, unit, style, toggleSpeedMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
                 <KeepAwake />
-                <SignalStrength style={styles.signalStrength} accuracy={accuracy} />
-                <Compass
-                    heading={heading}
-                    style={{ flex: 1 }}
-                />
+                <SignalStrength accuracy={accuracy} style={styles.signalStrength} />
+                <Compass heading={heading} style={{ flex: 1 }} />
                 <Speedometer
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
                     speed={speed}
-                    speedMeasurement={speedMeasurement}
-                    style={{ flex: 4 }}
+                    style={{ flex: 5 }}
                     toggleSpeedMeasurement={toggleSpeedMeasurement}
                     topSpeed={topSpeed}
+                    unit={unit}
                 />
             </View>
         );
@@ -57,11 +54,8 @@ DashboardScreen.propTypes = {
     heading: PropTypes.number,
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
-    speedMeasurement: PropTypes.number,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ]),
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     toggleSpeedMeasurement: PropTypes.func,
-    topSpeed: PropTypes.number
+    topSpeed: PropTypes.number,
+    unit: PropTypes.number
 };

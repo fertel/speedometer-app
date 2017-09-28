@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { CircleGuage } from './circle-guage';
 import { Odometer } from './odometer';
 import PropTypes from 'prop-types';
+import { SCREENS } from './app';
 import { Speed } from './speed';
 import { UnitSelector } from './unit-selector';
 import { Variables } from '../assets/styles/variables';
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
 export class Speedometer extends Component {
 
     render() {
-        const { distanceTravelled, maxSpeed, setScreenIndex, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { distanceTravelled, maxSpeed, setScreenIndex, speed, unit, style, toggleSpeedMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -47,15 +48,15 @@ export class Speedometer extends Component {
                     />
                 </View>
                 <View style={styles.absolutePosition}>
-                    <UnitSelector onPress={toggleSpeedMeasurement} speedMeasurement={speedMeasurement} />
+                    <UnitSelector onPress={toggleSpeedMeasurement} speedMeasurement={unit} />
                     <Speed
                         color={speed > maxSpeed ? Variables.colors.danger : Variables.colors.white}
                         value={speed}
-                        valueMeasurement={speedMeasurement}
+                        unit={unit}
                     />
                     <Odometer
-                        onPress={setScreenIndex}
-                        unit={speedMeasurement}
+                        onPress={() => setScreenIndex(SCREENS.ROUTE)}
+                        unit={unit}
                         value={distanceTravelled}
                     />
                 </View>
@@ -76,11 +77,8 @@ Speedometer.propTypes = {
     maxSpeed: PropTypes.number,
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
-    speedMeasurement: PropTypes.number,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ]),
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     toggleSpeedMeasurement: PropTypes.func,
-    topSpeed: PropTypes.number
+    topSpeed: PropTypes.number,
+    unit: PropTypes.number
 };

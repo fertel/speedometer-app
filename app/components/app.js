@@ -1,4 +1,4 @@
-import { Location, MapView, Permissions } from 'expo';
+import { Location, Permissions } from 'expo';
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
@@ -6,6 +6,7 @@ import { CubeRotateView } from './animations/cube-rotate-view';
 import { DashboardScreen } from './screens/dashboard';
 import { GEOLOCATION_OPTIONS } from '../config/config';
 import PropTypes from 'prop-types';
+import { RouteScreen } from './screens/route';
 import { Variables } from '../assets/styles/variables';
 import { calculateDistance } from '../util/calculate-distance';
 import { connect } from 'react-redux';
@@ -20,7 +21,7 @@ export const SCREENS = {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Variables.colors.white,
+        backgroundColor: Variables.colors.tertiary,
         flex: 1
     },
     screen: { flex: 1 }
@@ -88,22 +89,18 @@ class App extends Component {
                             distanceTravelled={distanceTravelled}
                             heading={heading}
                             speed={speed}
-                            speedMeasurement={speedMeasurement}
+                            unit={speedMeasurement}
                             toggleSpeedMeasurement={toggleSpeedMeasurement}
                             topSpeed={topSpeed}
                             setScreenIndex={this.setScreenIndex}
                         />
                     </View>
                     <View style={styles.screen}>
-                        <MapView
-                            style={{ flex: 1 }}
-                            showsUserLocation={true}
-                            followUserLocation={true}
-                            overlays={[{
-                                coordinates: routeCoordinates,
-                                strokeColor: Variables.colors.tertiary,
-                                lineWidth: Variables.spacer.base / 3,
-                            }]}
+                        <RouteScreen
+                            distanceTravelled={distanceTravelled}
+                            routeCoordinates={routeCoordinates}
+                            setScreenIndex={this.setScreenIndex}
+                            unit={speedMeasurement}
                         />
                     </View>
                 </CubeRotateView>

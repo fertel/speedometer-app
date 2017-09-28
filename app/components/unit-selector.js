@@ -59,8 +59,8 @@ export class UnitSelector extends Component {
     }
 
     render() {
-        const { speedMeasurement } = this.props;
-        const value = speedMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? 'km/h' : 'mph';
+        const { unit } = this.props;
+        const value = unit === SPEED_MEASUREMENTS.KILOMETERS ? 'km/h' : 'mph';
 
         return (
             <View style={styles.container}>
@@ -75,10 +75,10 @@ export class UnitSelector extends Component {
 }
 
 UnitSelector.defaultProps = {
-    speedMeasurement: SPEED_MEASUREMENTS.MILES
+    unit: SPEED_MEASUREMENTS.MILES
 };
 
 UnitSelector.propTypes = {
     onPress: PropTypes.func,
-    speedMeasurement: PropTypes.number
+    unit: PropTypes.number
 };

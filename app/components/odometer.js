@@ -3,7 +3,6 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { convertMetersToKilometers, convertMetersToMiles } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
-import { SCREENS } from './app';
 import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
 import { Variables } from '../assets/styles/variables';
 
@@ -75,7 +74,7 @@ export class Odometer extends Component {
 
         return (
             <View style={[style]}>
-                <TouchableWithoutFeedback onPress={() => onPress(SCREENS.ROUTE)}>
+                <TouchableWithoutFeedback onPress={onPress}>
                     <View style={{ flexDirection:'row', flexWrap:'wrap' }}>
                         <View style={styles.valueContainer}>
                             <View style={{ position: 'relative' }}>
@@ -101,10 +100,7 @@ Odometer.defaultProps = {
 
 Odometer.propTypes = {
     onPress: PropTypes.func,
-    value: PropTypes.number,
-    style: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object
-    ]),
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     unit: PropTypes.number,
+    value: PropTypes.number
 };
