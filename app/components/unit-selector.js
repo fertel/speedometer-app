@@ -2,7 +2,7 @@ import { Animated, StyleSheet, Text, TouchableWithoutFeedback, View } from 'reac
 import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
-import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
+import { UNIT_MEASUREMENT } from '../ducks/unit-measurement';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
@@ -60,7 +60,7 @@ export class UnitSelector extends Component {
 
     render() {
         const { unit } = this.props;
-        const value = unit === SPEED_MEASUREMENTS.KILOMETERS ? 'km/h' : 'mph';
+        const value = unit === UNIT_MEASUREMENT.KILOMETERS ? 'km/h' : 'mph';
 
         return (
             <View style={styles.container}>
@@ -75,7 +75,7 @@ export class UnitSelector extends Component {
 }
 
 UnitSelector.defaultProps = {
-    unit: SPEED_MEASUREMENTS.MILES
+    unit: UNIT_MEASUREMENT.MILES
 };
 
 UnitSelector.propTypes = {

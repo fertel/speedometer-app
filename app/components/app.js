@@ -10,7 +10,7 @@ import { RouteScreen } from './screens/route';
 import { Variables } from '../assets/styles/variables';
 import { calculateDistance } from '../util/calculate-distance';
 import { connect } from 'react-redux';
-import { toggleSpeedMeasurement } from '../ducks/speed-measurement';
+import { toggleUnitMeasurement } from '../ducks/unit-measurement';
 
 export const SCREENS = {
     DASHBOARD: 0,
@@ -76,7 +76,7 @@ class App extends Component {
     }
 
     render() {
-        const { speedMeasurement, toggleSpeedMeasurement } = this.props;
+        const { unitMeasurement, toggleUnitMeasurement } = this.props;
         let { accuracy, distanceTravelled, heading, routeCoordinates, speed, topSpeed, screenIndex } = this.state;
 
         return (
@@ -89,8 +89,8 @@ class App extends Component {
                             distanceTravelled={distanceTravelled}
                             heading={heading}
                             speed={speed}
-                            unit={speedMeasurement}
-                            toggleSpeedMeasurement={toggleSpeedMeasurement}
+                            unit={unitMeasurement}
+                            toggleUnitMeasurement={toggleUnitMeasurement}
                             topSpeed={topSpeed}
                             setScreenIndex={this.setScreenIndex}
                         />
@@ -100,7 +100,7 @@ class App extends Component {
                             distanceTravelled={distanceTravelled}
                             routeCoordinates={routeCoordinates}
                             setScreenIndex={this.setScreenIndex}
-                            unit={speedMeasurement}
+                            unit={unitMeasurement}
                         />
                     </View>
                 </CubeRotateView>
@@ -112,15 +112,15 @@ class App extends Component {
 App.propTypes = {
     geolocation: PropTypes.object,
     requestGeolocation: PropTypes.func,
-    speedMeasurement: PropTypes.number,
-    toggleSpeedMeasurement: PropTypes.func
+    unitMeasurement: PropTypes.number,
+    toggleUnitMeasurement: PropTypes.func
 };
 
 export default connect(
     state => Object.assign({},
-        state.speedMeasurementDuck
+        state.unitMeasurementDuck
     ),
     Object.assign({}, {
-        toggleSpeedMeasurement
+        toggleUnitMeasurement
     })
 )(App);

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 export class Speedometer extends Component {
 
     render() {
-        const { distanceTravelled, maxSpeed, setScreenIndex, speed, unit, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { distanceTravelled, maxSpeed, setScreenIndex, speed, unit, style, toggleUnitMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -48,7 +48,7 @@ export class Speedometer extends Component {
                     />
                 </View>
                 <View style={styles.absolutePosition}>
-                    <UnitSelector onPress={toggleSpeedMeasurement} speedMeasurement={unit} />
+                    <UnitSelector onPress={toggleUnitMeasurement} unit={unit} />
                     <Speed
                         color={speed > maxSpeed ? Variables.colors.danger : Variables.colors.white}
                         value={speed}
@@ -78,7 +78,7 @@ Speedometer.propTypes = {
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
-    toggleSpeedMeasurement: PropTypes.func,
+    toggleUnitMeasurement: PropTypes.func,
     topSpeed: PropTypes.number,
     unit: PropTypes.number
 };

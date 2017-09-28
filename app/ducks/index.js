@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import geolocationDuck from './geolocation';
-import speedMeasurementDuck from './speed-measurement';
+import unitMeasurementDuck from './unit-measurement';
 
 const Reducers = combineReducers({
     geolocationDuck,
-    speedMeasurementDuck
+    unitMeasurementDuck
 });
 
 export default Reducers;

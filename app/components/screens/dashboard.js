@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 export class DashboardScreen extends Component {
 
     render() {
-        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, unit, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, unit, style, toggleUnitMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -35,7 +35,7 @@ export class DashboardScreen extends Component {
                     setScreenIndex={setScreenIndex}
                     speed={speed}
                     style={{ flex: 5 }}
-                    toggleSpeedMeasurement={toggleSpeedMeasurement}
+                    toggleUnitMeasurement={toggleUnitMeasurement}
                     topSpeed={topSpeed}
                     unit={unit}
                 />
@@ -55,7 +55,7 @@ DashboardScreen.propTypes = {
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
-    toggleSpeedMeasurement: PropTypes.func,
+    toggleUnitMeasurement: PropTypes.func,
     topSpeed: PropTypes.number,
     unit: PropTypes.number
 };

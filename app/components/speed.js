@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { convertMetersPerSecondToKilometersPerHour, convertMetersPerSecondToMilesPerHour } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
-import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
+import { UNIT_MEASUREMENT } from '../ducks/unit-measurement';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
@@ -31,7 +31,7 @@ export class Speed extends Component {
 
     convertValue() {
         const { unit, value } = this.props;
-        const conversion = unit === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;
+        const conversion = unit === UNIT_MEASUREMENT.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;
 
         return conversion(value);
     }
@@ -69,7 +69,7 @@ export class Speed extends Component {
 Speed.defaultProps = {
     color: Variables.colors.white,
     value: 0,
-    unit: SPEED_MEASUREMENTS.KILOMETERS
+    unit: UNIT_MEASUREMENT.KILOMETERS
 };
 
 Speed.propTypes = {

@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { convertMetersToKilometers, convertMetersToMiles } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
-import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
+import { UNIT_MEASUREMENT } from '../ducks/unit-measurement';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
@@ -48,7 +48,7 @@ export class Odometer extends Component {
 
     convertValue() {
         const { unit, value } = this.props;
-        const conversion = unit === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersToKilometers : convertMetersToMiles;
+        const conversion = unit === UNIT_MEASUREMENT.KILOMETERS ? convertMetersToKilometers : convertMetersToMiles;
 
         return conversion(value);
     }
@@ -70,7 +70,7 @@ export class Odometer extends Component {
 
     render() {
         const { unit, style, onPress } = this.props;
-        const unitLabel = unit === SPEED_MEASUREMENTS.KILOMETERS ? 'km' : 'mi';
+        const unitLabel = unit === UNIT_MEASUREMENT.KILOMETERS ? 'km' : 'mi';
 
         return (
             <View style={[style]}>
@@ -94,7 +94,7 @@ export class Odometer extends Component {
 
 Odometer.defaultProps = {
     onPress: () => {},
-    unit: SPEED_MEASUREMENTS.MILES,
+    unit: UNIT_MEASUREMENT.MILES,
     value: 0
 };
 
