@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { convertMetersPerSecondToKilometersPerHour, convertMetersPerSecondToMilesPerHour } from '../util/convert-units';
 import { convertMetersToKilometers, convertMetersToMiles } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
@@ -56,10 +55,7 @@ export class Odometer extends Component {
 
     renderValue() {
         const value = Math.round(this.convertValue() * 100) / 100;
-
         let result = value.toFixed(2);
-
-        console.log('result: ', result);
 
         switch (true) {
             case value < 0: result = '    ' + result; break;
