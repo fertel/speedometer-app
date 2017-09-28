@@ -71,7 +71,7 @@ export class CircleGuage extends Component {
 }
 
 CircleGuage.defaultProps = {
-    colors: [Variables.colors.secondary, Variables.colors.tertiary, Variables.colors.quadrenary],
+    colors: [Variables.colors.secondary, Variables.colors.tertiary, Variables.colors.danger],
     diameter: 360,
     hasDangerZone: false,
     percentageFull: 0,

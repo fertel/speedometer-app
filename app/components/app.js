@@ -1,12 +1,11 @@
-import { Constants, KeepAwake, Location, Permissions } from 'expo';
+import { Constants, Location, Permissions } from 'expo';
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
-import { Compass } from './compass';
+import { CubeRotateView } from './animations/cube-rotate-view';
+import { DashboardScreen } from './screens/dashboard';
 import { GEOLOCATION_OPTIONS } from '../config/config';
 import PropTypes from 'prop-types';
-import { SignalStrength } from './signal-strength';
-import { Speedometer } from './speedometer';
 import { Variables } from '../assets/styles/variables';
 import { connect } from 'react-redux';
 import { toggleSpeedMeasurement } from '../ducks/speed-measurement';
@@ -16,11 +15,7 @@ const styles = StyleSheet.create({
         backgroundColor: Variables.colors.primary,
         flex: 1
     },
-    signalStrength: {
-        position: 'absolute',
-        right: Variables.spacer.base / 2,
-        top: Constants.statusBarHeight + Variables.spacer.base / 2
-    }
+    screen: { flex: 1 }
 });
 
 class App extends Component {
@@ -59,24 +54,24 @@ class App extends Component {
 
     render() {
         const { speedMeasurement, toggleSpeedMeasurement } = this.props;
-        const { accuracy, speed, topSpeed, heading } = this.state;
+        let { accuracy, speed, topSpeed, heading } = this.state;
 
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
-                <KeepAwake />
-                <SignalStrength style={styles.signalStrength} accuracy={accuracy} />
-                <Compass
-                    style={{ flex: 1 }}
-                    heading={heading}
-                />
-                <Speedometer
-                    speed={speed}
-                    speedMeasurement={speedMeasurement}
-                    style={{ flex: 4 }}
-                    toggleSpeedMeasurement={toggleSpeedMeasurement}
-                    topSpeed={topSpeed}
-                />
+                <CubeRotateView animateToIndex={0}>
+                    <View style={styles.screen}>
+                        <DashboardScreen
+                            accuracy={accuracy}
+                            heading={heading}
+                            speed={speed}
+                            speedMeasurement={speedMeasurement}
+                            toggleSpeedMeasurement={toggleSpeedMeasurement}
+                            topSpeed={topSpeed}
+                        />
+                    </View>
+                    <View style={styles.screen} />
+                </CubeRotateView>
             </View>
         );
     }
