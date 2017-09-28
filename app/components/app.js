@@ -11,9 +11,16 @@ import { calculateDistance } from '../util/calculate-distance';
 import { connect } from 'react-redux';
 import { toggleSpeedMeasurement } from '../ducks/speed-measurement';
 
+export const SCREENS = {
+    DASHBOARD: 0,
+    ROUTE: 1,
+    SETTINGS: 2,
+    ABOUT: 3
+};
+
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Variables.colors.primary,
+        backgroundColor: Variables.colors.white,
         flex: 1
     },
     screen: { flex: 1 }
@@ -29,10 +36,12 @@ class App extends Component {
             heading: -1, // set to -1 to prevent flash of 0 degrees of ('N') on the compass on load
             lastPosition: {},
             routeCoordinates: [],
+            screenIndex: SCREENS.DASHBOARD,
             speed: 0,
             topSpeed: 0
         };
 
+        this.setScreenIndex = this.setScreenIndex.bind(this);
         this.updateSpeed = this.updateSpeed.bind(this);
     }
 
@@ -41,6 +50,10 @@ class App extends Component {
             const { status } = response;
             if (status === 'granted') Location.watchPositionAsync(GEOLOCATION_OPTIONS, this.updateSpeed);
         });
+    }
+
+    setScreenIndex(index) {
+        this.setState({ screenIndex: index || SCREENS.DASHBOARD });
     }
 
     updateSpeed(response) {
@@ -63,12 +76,12 @@ class App extends Component {
 
     render() {
         const { speedMeasurement, toggleSpeedMeasurement } = this.props;
-        let { accuracy, distanceTravelled, heading, routeCoordinates, speed, topSpeed } = this.state;
+        let { accuracy, distanceTravelled, heading, routeCoordinates, speed, topSpeed, screenIndex } = this.state;
 
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
-                <CubeRotateView animateToIndex={0}>
+                <CubeRotateView animateToIndex={screenIndex}>
                     <View style={styles.screen}>
                         <DashboardScreen
                             accuracy={accuracy}
@@ -78,6 +91,7 @@ class App extends Component {
                             speedMeasurement={speedMeasurement}
                             toggleSpeedMeasurement={toggleSpeedMeasurement}
                             topSpeed={topSpeed}
+                            setScreenIndex={this.setScreenIndex}
                         />
                     </View>
                     <View style={styles.screen}>

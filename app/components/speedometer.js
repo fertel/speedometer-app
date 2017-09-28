@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { CircleGuage } from './circle-guage';
 import { Odometer } from './odometer';
 import PropTypes from 'prop-types';
-import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
 import { Speed } from './speed';
 import { UnitSelector } from './unit-selector';
 import { Variables } from '../assets/styles/variables';
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
 export class Speedometer extends Component {
 
     render() {
-        const { distanceTravelled, maxSpeed, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { distanceTravelled, maxSpeed, setScreenIndex, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -54,7 +53,11 @@ export class Speedometer extends Component {
                         value={speed}
                         valueMeasurement={speedMeasurement}
                     />
-                    <Odometer value={distanceTravelled} distanceMeasurement={speedMeasurement} />
+                    <Odometer
+                        onPress={setScreenIndex}
+                        unit={speedMeasurement}
+                        value={distanceTravelled}
+                    />
                 </View>
             </View>
         );
@@ -71,6 +74,7 @@ Speedometer.defaultProps = {
 Speedometer.propTypes = {
     distanceTravelled: PropTypes.number,
     maxSpeed: PropTypes.number,
+    setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     speedMeasurement: PropTypes.number,
     style: PropTypes.oneOfType([

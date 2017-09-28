@@ -9,7 +9,10 @@ import { Speedometer } from '../speedometer';
 import { Variables } from '../../assets/styles/variables';
 
 const styles = StyleSheet.create({
-    container: { flex: 1 },
+    container: {
+        backgroundColor: Variables.colors.primary,
+        flex: 1
+    },
     signalStrength: {
         position: 'absolute',
         right: Variables.spacer.base / 2,
@@ -20,7 +23,7 @@ const styles = StyleSheet.create({
 export class DashboardScreen extends Component {
 
     render() {
-        const { accuracy, distanceTravelled, heading, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speedMeasurement, style, toggleSpeedMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -32,6 +35,7 @@ export class DashboardScreen extends Component {
                 />
                 <Speedometer
                     distanceTravelled={distanceTravelled}
+                    setScreenIndex={setScreenIndex}
                     speed={speed}
                     speedMeasurement={speedMeasurement}
                     style={{ flex: 4 }}
@@ -51,6 +55,7 @@ DashboardScreen.propTypes = {
     accuracy: PropTypes.number,
     distanceTravelled: PropTypes.number,
     heading: PropTypes.number,
+    setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     speedMeasurement: PropTypes.number,
     style: PropTypes.oneOfType([

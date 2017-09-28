@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { convertMetersToKilometers, convertMetersToMiles } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
+import { SCREENS } from './app';
 import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
 import { Variables } from '../assets/styles/variables';
 
@@ -47,8 +48,8 @@ export class Odometer extends Component {
     }
 
     convertValue() {
-        const { distanceMeasurement, value } = this.props;
-        const conversion = distanceMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersToKilometers : convertMetersToMiles;
+        const { unit, value } = this.props;
+        const conversion = unit === SPEED_MEASUREMENTS.KILOMETERS ? convertMetersToKilometers : convertMetersToMiles;
 
         return conversion(value);
     }
@@ -69,37 +70,41 @@ export class Odometer extends Component {
     }
 
     render() {
-        const { distanceMeasurement, style } = this.props;
-        const unit = distanceMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? 'km' : 'mi';
+        const { unit, style, onPress } = this.props;
+        const unitLabel = unit === SPEED_MEASUREMENTS.KILOMETERS ? 'km' : 'mi';
 
         return (
             <View style={[style]}>
-                <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                    <View style={styles.valueContainer}>
-                        <View style={{ position: 'relative' }}>
-                            <Text style={[styles.value, styles.valueBackground]}>0000.00</Text>
-                            <Text style={styles.value}>{this.renderValue()}</Text>
+                <TouchableWithoutFeedback onPress={() => onPress(SCREENS.ROUTE)}>
+                    <View style={{ flexDirection:'row', flexWrap:'wrap' }}>
+                        <View style={styles.valueContainer}>
+                            <View style={{ position: 'relative' }}>
+                                <Text style={[styles.value, styles.valueBackground]}>0000.00</Text>
+                                <Text style={styles.value}>{this.renderValue()}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.unitContainer}>
+                            <Text style={styles.unit}>{unitLabel.toLowerCase()}</Text>
                         </View>
                     </View>
-                    <View style={styles.unitContainer}>
-                        <Text style={styles.unit}>{unit.toLowerCase()}</Text>
-                    </View>
-                </View>
+                </TouchableWithoutFeedback>
             </View>
         );
     }
 }
 
 Odometer.defaultProps = {
-    distanceMeasurement: SPEED_MEASUREMENTS.MILES,
+    onPress: () => {},
+    unit: SPEED_MEASUREMENTS.MILES,
     value: 0
 };
 
 Odometer.propTypes = {
-    distanceMeasurement: PropTypes.number,
+    onPress: PropTypes.func,
     value: PropTypes.number,
     style: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.object
-    ])
+    ]),
+    unit: PropTypes.number,
 };
