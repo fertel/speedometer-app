@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { CircleGuage } from './circle-guage';
+import { Odometer } from './odometer';
 import PropTypes from 'prop-types';
 import { SPEED_MEASUREMENTS } from '../ducks/speed-measurement';
 import { Speed } from './speed';
@@ -28,8 +29,6 @@ export class Speedometer extends Component {
     render() {
         const { speed, topSpeed, maxSpeed, speedMeasurement, toggleSpeedMeasurement, style } = this.props;
 
-        const speedMeasurementValue = speedMeasurement === SPEED_MEASUREMENTS.KILOMETERS ? 'KM/H' : 'MPH';
-
         return (
             <View style={[styles.container, style]}>
                 <View style={styles.absolutePosition}>
@@ -51,12 +50,15 @@ export class Speedometer extends Component {
                 <View style={styles.absolutePosition}>
                     <UnitSelector
                         onPress={toggleSpeedMeasurement}
-                        value={speedMeasurementValue}
+                        speedMeasurement={speedMeasurement}
                     />
                     <Speed
                         color={speed > maxSpeed ? Variables.colors.danger : Variables.colors.white}
                         value={speed}
                         valueMeasurement={speedMeasurement}
+                    />
+                    <Odometer
+                        distanceMeasurement={speedMeasurement}
                     />
                 </View>
             </View>

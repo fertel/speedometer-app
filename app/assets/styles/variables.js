@@ -42,7 +42,7 @@ export const Variables = {
         width: 1
     },
     colors: {
-        black: Color('#333132'),
+        black: Color('#000'),
         danger: Color('#ff094d'),
         facebook: Color('#3b5998'),
         googlePlus: Color('#f44336'),

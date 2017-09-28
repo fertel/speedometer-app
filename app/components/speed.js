@@ -1,5 +1,5 @@
-import { Animated, StyleSheet, Text, View } from 'react-native';
 import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { convertMetersPerSecondToKilometersPerHour, convertMetersPerSecondToMilesPerHour } from '../util/convert-units';
 
 import PropTypes from 'prop-types';
