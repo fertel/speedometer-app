@@ -1,8 +1,9 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { DIRECTIONS, FadeInDirectionView } from '../animations/fade-in-direction-view';
 import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Constants } from 'expo';
+import { GlowingActivityIndicator } from '../glowing-activity-indicator';
 import PropTypes from 'prop-types';
 import { Variables } from '../../assets/styles/variables';
 
@@ -15,15 +16,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: Variables.spacer.base,
         paddingTop: Constants.statusBarHeight + Variables.spacer.base
     },
-    activityIndictator: {
-        height: 32,
-        marginBottom: Variables.spacer.base / 2
-    },
+    activityIndictator: { marginBottom: Variables.spacer.base },
     text: {
         color: Variables.colors.white,
         fontFamily: Variables.fonts.sansSerif.medium,
         fontSize: Variables.fontSizes.medium,
-        lineHeight: Variables.lineHeights.medium
+        lineHeight: Variables.lineHeights.medium,
+        backgroundColor: 'transparent'
     }
 });
 
@@ -34,16 +33,8 @@ export class PreloaderScreen extends Component {
 
         return (
             <View style={[styles.container, { backgroundColor }]}>
-                <FadeInDirectionView
-                    animateOnUpdate={false}
-                    direction={DIRECTIONS.UP}
-                >
-                    <ActivityIndicator
-                        animating
-                        color={Variables.colors.white}
-                        size={'large'}
-                        style={styles.activityIndictator}
-                    />
+                <FadeInDirectionView animateOnUpdate={false} direction={DIRECTIONS.UP}>
+                    <GlowingActivityIndicator style={styles.activityIndictator} />
                 </FadeInDirectionView>
                 <FadeInDirectionView
                     animateOnUpdate={false}

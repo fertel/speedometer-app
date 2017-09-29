@@ -64,12 +64,22 @@ class App extends Component {
         const { topSpeed, routeCoordinates, distanceTravelled, lastPosition } = this.state;
         const currentPosition = { latitude, longitude };
 
+        const distanceTravelledSinceUpdate = calculateDistance(lastPosition, currentPosition);
+
+        let updatedDistanceTravelled = distanceTravelled;
+        let updatedRouteCoordinates = routeCoordinates;
+
+        if (distanceTravelledSinceUpdate > 10 || !routeCoordinates[0]) {
+            updatedDistanceTravelled = updatedDistanceTravelled + distanceTravelledSinceUpdate;
+            updatedRouteCoordinates = routeCoordinates.concat([{ latitude, longitude }]);
+        }
+
         this.setState({
             accuracy,
-            distanceTravelled: distanceTravelled + calculateDistance(lastPosition, currentPosition),
+            distanceTravelled: updatedDistanceTravelled,
             heading,
             lastPosition: currentPosition,
-            routeCoordinates: routeCoordinates.concat([{ latitude, longitude }]),
+            routeCoordinates: updatedRouteCoordinates,
             speed,
             topSpeed: topSpeed < speed ? speed : topSpeed
         });
@@ -78,8 +88,6 @@ class App extends Component {
     render() {
         const { unitMeasurement, toggleUnitMeasurement } = this.props;
         let { accuracy, distanceTravelled, heading, routeCoordinates, speed, topSpeed, screenIndex } = this.state;
-
-        console.log('routeCoordinates: ', routeCoordinates);
 
         return (
             <View style={styles.container}>
@@ -108,7 +116,7 @@ class App extends Component {
                         </View>
                     </CubeRotateView>
                     : <PreloaderScreen
-                        loadingMessage={'getting location...'}
+                        loadingMessage={'Getting location...'}
                         backgroundColor={Variables.colors.primary}
                     />
                 }
