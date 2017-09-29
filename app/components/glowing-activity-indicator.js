@@ -5,10 +5,32 @@ import PropTypes from 'prop-types';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
+    container: {
+        position: 'relative'
+    },
+    glowPrimary: {
+        shadowColor: Variables.colors.secondary,
+        shadowOffset: { width: -Variables.spacer.base / 3, height: 0 }
+    },
+    glowSecondary: {
+        position: 'absolute',
+        shadowColor: Variables.colors.tertiary,
+        shadowOffset: { width: Variables.spacer.base / 3, height: 0 }
+    },
+    glowTertiary: {
+        position: 'absolute',
+        shadowColor: Variables.colors.danger,
+        shadowOffset: { width: 0, height: -Variables.spacer.base / 3 }
+    },
+    glowQuatrenary: {
+        position: 'absolute',
+        shadowColor: Variables.colors.warning,
+        shadowOffset: { width: 0, height: Variables.spacer.base / 3 }
+    },
     shadow: {
         borderRadius: Variables.spacer.base * 2,
         height: Variables.spacer.base * 2,
-        shadowOpacity: 0.7,
+        shadowOpacity: 1,
         shadowRadius: Variables.spacer.base / 3,
         width: Variables.spacer.base * 2
     }
@@ -34,13 +56,14 @@ export class GlowingActivityIndicator extends Component {
     animate() {
         const { delay, duration } = this.props;
 
-        Animated.timing(this.animation, {
-            delay: delay,
-            duration: duration,
-            easing: Variables.animations.defaultEasing,
-            toValue: 1,
-            useNativeDriver: true
-        }).start();
+        Animated.loop(
+            Animated.timing(this.animation, {
+                delay: delay,
+                duration: duration,
+                toValue: 1,
+                useNativeDriver: true
+            })
+        ).start();
     }
 
     getTransform() {
@@ -58,45 +81,22 @@ export class GlowingActivityIndicator extends Component {
         const { style } = this.props;
 
         return (
-            <Animated.View style={[
-                styles.shadow,
-                this.getTransform(),
-                { shadowColor: Variables.colors.secondary },
-                { shadowOffset: { width: -Variables.spacer.base / 3, height: 0 } },
-                style]}
-            >
-                <Animated.View style={[
-                    styles.shadow,
-                    this.getTransform(),
-                    { shadowColor: Variables.colors.tertiary },
-                    { shadowOffset: { width: Variables.spacer.base / 3, height: 0 } },
-                    style]}
-                >
-                    <Animated.View style={[
-                        styles.shadow,
-                        this.getTransform(),
-                        { shadowColor: Variables.colors.danger },
-                        { shadowOffset: { width: 0, height: -Variables.spacer.base / 3 } },
-                        style]}
-                    >
-                        <Animated.View style={[
-                            styles.shadow,
-                            this.getTransform(),
-                            { shadowColor: Variables.colors.warning },
-                            { shadowOffset: { width: 0, height: Variables.spacer.base / 3 } },
-                            style]}
-                        >
+            <View style={[styles.container, style]}>
+                <Animated.View style={[ styles.shadow, this.getTransform(), styles.glowPrimary ]}>
+                    <Animated.View style={[ styles.shadow, this.getTransform(), styles.glowSecondary ]}>
+                        <Animated.View style={[ styles.shadow, this.getTransform(), styles.glowTertiary ]}>
+                            <Animated.View style={[ styles.shadow, this.getTransform(), styles.glowQuatrenary ]} />
                         </Animated.View>
                     </Animated.View>
                 </Animated.View>
-            </Animated.View>
+            </View>
         );
     }
 }
 
 GlowingActivityIndicator.defaultProps = {
     delay: 0,
-    duration: Variables.animations.durationBase * 60
+    duration: Variables.animations.durationBase * 10
 };
 
 GlowingActivityIndicator.propTypes = {

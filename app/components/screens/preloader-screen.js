@@ -1,4 +1,5 @@
-import { DIRECTIONS, FadeInDirectionView } from '../animations/fade-in-direction-view';
+import * as Animatable from 'react-native-animatable';
+
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -29,31 +30,39 @@ const styles = StyleSheet.create({
 export class PreloaderScreen extends Component {
 
     render() {
-        const { loadingMessage, backgroundColor } = this.props;
+        const { backgroundColor, isLoading, loadingMessage, style } = this.props;
 
         return (
-            <View style={[styles.container, { backgroundColor }]}>
-                <FadeInDirectionView animateOnUpdate={false} direction={DIRECTIONS.UP}>
+            <View style={[styles.container, { backgroundColor }, style]}>
+                <Animatable.View
+                    duration={Variables.animations.durationBase}
+                    animation={isLoading ? 'fadeInUp' : 'zoomOut'}
+                    useNativeDriver
+                >
                     <GlowingActivityIndicator style={styles.activityIndictator} />
-                </FadeInDirectionView>
-                <FadeInDirectionView
-                    animateOnUpdate={false}
+                </Animatable.View>
+                <Animatable.View
+                    duration={Variables.animations.durationBase}
+                    animation={isLoading ? 'fadeInUp' : 'fadeOut'}
                     delay={Variables.animations.durationBase / 6}
-                    direction={DIRECTIONS.UP}
+                    useNativeDriver
                 >
                     <Text style={styles.text}>{loadingMessage}</Text>
-                </FadeInDirectionView>
+                </Animatable.View>
             </View>
         );
     }
 }
 
 PreloaderScreen.defaultProps = {
-    loadingMessage: 'Loading...',
-    backgroundColor: Variables.colors.loading
+    backgroundColor: Variables.colors.loading,
+    isLoading: true,
+    loadingMessage: 'Loading...'
 };
 
 PreloaderScreen.propTypes = {
     backgroundColor: PropTypes.object,
-    loadingMessage: PropTypes.string
+    isLoading: PropTypes.bool,
+    loadingMessage: PropTypes.string,
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
 };
