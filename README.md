@@ -240,6 +240,10 @@ Use the app link to download the .IPA file.
 ## To-Dos
 
 * add Google Analytics
+* fit route end points to the map when user goes to route page;
+* fade out preloader
+* set delay on preloader
+* add animations to speedometer page
 * add "Rate this App" button to About page
 * test
 * add ads
