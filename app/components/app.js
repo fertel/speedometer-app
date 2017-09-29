@@ -77,9 +77,7 @@ class App extends Component {
 
     render() {
         const { accuracy, distanceTravelled, heading, routeCoordinates, speed, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
-        let { screenIndex, appIsLoaded } = this.state;
-
-        console.log('this.props: ', this.props);
+        const { screenIndex, appIsLoaded } = this.state;
 
         return (
             <View style={styles.container}>
