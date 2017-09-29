@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         position: 'relative'
     },
     odometerContainer: {
-        backgroundColor: Variables.colors.black.fade(0.5),
+        backgroundColor: Variables.colors.black.fade(0.3),
         bottom: 0,
         left: 0,
         padding: Variables.spacer.base / 2,
@@ -42,13 +42,21 @@ export class RouteScreen extends Component {
                 <View style={styles.statusBarBackround} />
                 <MapView
                     style={styles.container}
-                    showsUserLocation={true}
-                    followUserLocation={true}
+                    showsUserLocation
+                    followUserLocation
+                    initialRegion={{
+                        latitude: routeCoordinates[0].latitude,
+                        latitudeDelta: 0.005,
+                        longitude: routeCoordinates[0].longitude,
+                        longitudeDelta: 0.005
+                    }}
                 >
                     <MapView.Polyline
                         coordinates={routeCoordinates}
                         strokeWidth={Variables.spacer.base / 3}
                         strokeColor={Variables.colors.tertiary.string()}
+                        miterLimit={50}
+                        lineCap={'round'}
                     />
                 </MapView>
                 <View style={styles.odometerContainer}>

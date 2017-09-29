@@ -5,6 +5,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import { CubeRotateView } from './animations/cube-rotate-view';
 import { DashboardScreen } from './screens/dashboard';
 import { GEOLOCATION_OPTIONS } from '../config/config';
+import { PreloaderScreen } from './screens/preloader-screen';
 import PropTypes from 'prop-types';
 import { RouteScreen } from './screens/route';
 import { Variables } from '../assets/styles/variables';
@@ -61,7 +62,6 @@ class App extends Component {
         const { coords } = response;
         const { accuracy, heading, speed, latitude, longitude } = coords;
         const { topSpeed, routeCoordinates, distanceTravelled, lastPosition } = this.state;
-
         const currentPosition = { latitude, longitude };
 
         this.setState({
@@ -69,7 +69,7 @@ class App extends Component {
             distanceTravelled: distanceTravelled + calculateDistance(lastPosition, currentPosition),
             heading,
             lastPosition: currentPosition,
-            routeCoordinates: routeCoordinates.concat([currentPosition]),
+            routeCoordinates: routeCoordinates.concat([{ latitude, longitude }]),
             speed,
             topSpeed: topSpeed < speed ? speed : topSpeed
         });
@@ -79,31 +79,39 @@ class App extends Component {
         const { unitMeasurement, toggleUnitMeasurement } = this.props;
         let { accuracy, distanceTravelled, heading, routeCoordinates, speed, topSpeed, screenIndex } = this.state;
 
+        console.log('routeCoordinates: ', routeCoordinates);
+
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
-                <CubeRotateView animateToIndex={screenIndex}>
-                    <View style={styles.screen}>
-                        <DashboardScreen
-                            accuracy={accuracy}
-                            distanceTravelled={distanceTravelled}
-                            heading={heading}
-                            speed={speed}
-                            unit={unitMeasurement}
-                            toggleUnitMeasurement={toggleUnitMeasurement}
-                            topSpeed={topSpeed}
-                            setScreenIndex={this.setScreenIndex}
-                        />
-                    </View>
-                    <View style={styles.screen}>
-                        <RouteScreen
-                            distanceTravelled={distanceTravelled}
-                            routeCoordinates={routeCoordinates}
-                            setScreenIndex={this.setScreenIndex}
-                            unit={unitMeasurement}
-                        />
-                    </View>
-                </CubeRotateView>
+                {routeCoordinates[0]
+                    ? <CubeRotateView animateToIndex={screenIndex}>
+                        <View style={styles.screen}>
+                            <DashboardScreen
+                                accuracy={accuracy}
+                                distanceTravelled={distanceTravelled}
+                                heading={heading}
+                                speed={speed}
+                                unit={unitMeasurement}
+                                toggleUnitMeasurement={toggleUnitMeasurement}
+                                topSpeed={topSpeed}
+                                setScreenIndex={this.setScreenIndex}
+                            />
+                        </View>
+                        <View style={styles.screen}>
+                            <RouteScreen
+                                distanceTravelled={distanceTravelled}
+                                routeCoordinates={routeCoordinates}
+                                setScreenIndex={this.setScreenIndex}
+                                unit={unitMeasurement}
+                            />
+                        </View>
+                    </CubeRotateView>
+                    : <PreloaderScreen
+                        loadingMessage={'getting location...'}
+                        backgroundColor={Variables.colors.primary}
+                    />
+                }
             </View>
         );
     }
