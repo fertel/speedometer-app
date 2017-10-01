@@ -1,30 +1,27 @@
-import * as Animatable from 'react-native-animatable';
-
-import { Location, Permissions } from 'expo';
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
-import { CubeRotateView } from './animations/cube-rotate-view';
-import { DashboardScreen } from './screens/dashboard';
+import DashboardScreen from './screens/dashboard-screen';
+import { Permissions } from 'expo';
 import { PreloaderScreen } from './screens/preloader-screen';
 import PropTypes from 'prop-types';
-import { RouteScreen } from './screens/route';
+import RouteScreen from './screens/route-screen';
+import { TransitionContainer } from './transition-container';
 import { Variables } from '../assets/styles/variables';
-import { calculateDistance } from '../util/calculate-distance';
 import { connect } from 'react-redux';
-import { toggleUnitMeasurement } from '../ducks/unit-measurement';
 import { watchGeolocation } from '../ducks/geolocation';
 
 export const SCREENS = {
-    DASHBOARD: 0,
-    ROUTE: 1,
-    SETTINGS: 2,
-    ABOUT: 3
+    PRELOADER: 0,
+    DASHBOARD: 1,
+    ROUTE: 2,
+    SETTINGS: 3,
+    ABOUT: 4
 };
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Variables.colors.tertiary,
+        backgroundColor: Variables.colors.primary,
         flex: 1,
         position: 'relative'
     },
@@ -34,8 +31,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         top: 0
-    },
-    screen: { flex: 1 }
+    }
 });
 
 class App extends Component {
@@ -44,7 +40,7 @@ class App extends Component {
         super(props);
         this.state = {
             appIsLoaded: false,
-            screenIndex: SCREENS.DASHBOARD,
+            screenIndex: SCREENS.PRELOADER
         };
 
         this.setScreenIndex = this.setScreenIndex.bind(this);
@@ -61,12 +57,16 @@ class App extends Component {
 
     componentDidUpdate() {
         const { routeCoordinates } = this.props;
+        const { appIsLoaded } = this.state;
 
         // TODO: find better way to make the preloader wait
         // at least three seconds before fading out
-        if (routeCoordinates[0]) {
+        if (routeCoordinates[0] && !appIsLoaded) {
             setTimeout(() => {
-                this.setState({ appIsLoaded: true });
+                this.setState({
+                    appIsLoaded: true,
+                    screenIndex: SCREENS.DASHBOARD
+                });
             }, 3000);
         }
     }
@@ -76,74 +76,31 @@ class App extends Component {
     }
 
     render() {
-        const { accuracy, distanceTravelled, heading, routeCoordinates, speed, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
-        const { screenIndex, appIsLoaded } = this.state;
+        const { screenIndex } = this.state;
 
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
-                <PreloaderScreen
-                    loadingMessage={'Getting location...'}
-                    isLoading={!appIsLoaded}
-                    style={styles.preloader}
-                    backgroundColor={Variables.colors.primary}
-                />
-                {appIsLoaded &&
-                    <Animatable.View
-                        duration={Variables.animations.durationBase}
-                        animation={'fadeIn'}
-                        useNativeDriver
-                        style={{ flex: 1 }}
-                    >
-                        <CubeRotateView animateToIndex={screenIndex}>
-                            <View style={styles.screen}>
-                                <DashboardScreen
-                                    accuracy={accuracy}
-                                    distanceTravelled={distanceTravelled}
-                                    heading={heading}
-                                    speed={speed}
-                                    unit={unitMeasurement}
-                                    toggleUnitMeasurement={toggleUnitMeasurement}
-                                    topSpeed={topSpeed}
-                                    setScreenIndex={this.setScreenIndex}
-                                />
-                            </View>
-                            <View style={styles.screen}>
-                                <RouteScreen
-                                    distanceTravelled={distanceTravelled}
-                                    routeCoordinates={routeCoordinates}
-                                    setScreenIndex={this.setScreenIndex}
-                                    unit={unitMeasurement}
-                                />
-                            </View>
-                        </CubeRotateView>
-                    </Animatable.View>
-                }
+                <TransitionContainer setScreenIndex={this.setScreenIndex} screenIndex={screenIndex}>
+                    <PreloaderScreen
+                        loadingMessage={'Getting location...'}
+                        style={styles.preloader}
+                        backgroundColor={Variables.colors.primary}
+                    />
+                    <DashboardScreen />
+                    <RouteScreen />
+                </TransitionContainer>
             </View>
         );
     }
 }
 
 App.propTypes = {
-    accuracy: PropTypes.number,
-    distanceTravelled: PropTypes.number,
-    geolocation: PropTypes.object,
-    heading: PropTypes.number,
     routeCoordinates: PropTypes.array,
-    speed: PropTypes.number,
-    toggleUnitMeasurement: PropTypes.func,
-    topSpeed: PropTypes.number,
-    unitMeasurement: PropTypes.number,
     watchGeolocation: PropTypes.func
 };
 
 export default connect(
-    state => Object.assign({},
-        state.geolocationDuck,
-        state.unitMeasurementDuck
-    ),
-    Object.assign({}, {
-        toggleUnitMeasurement,
-        watchGeolocation
-    })
+    state => Object.assign({}, state.geolocationDuck ),
+    Object.assign({}, { watchGeolocation })
 )(App);

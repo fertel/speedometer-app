@@ -14,6 +14,11 @@ const styles = StyleSheet.create({
 
 export class CompassDirection extends Component {
 
+    shouldComponentUpdate(nextProps) {
+        const { active } = nextProps;
+        return active !== this.props.active;
+    }
+
     render() {
         const { activeColor, active, inactiveColor, style, value } = this.props;
         const color = active ? activeColor : inactiveColor;

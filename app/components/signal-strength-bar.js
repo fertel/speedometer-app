@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
 
 export class SignalStrengthBar extends Component {
 
+    shouldComponentUpdate(nextProps) {
+        const { active } = nextProps;
+        return active !== this.props.active;
+    }
+
     render() {
         const { activeColor, active, inactiveColor, style, heightPercentage } = this.props;
         const backgroundColor = active ? activeColor : inactiveColor;
@@ -27,7 +32,7 @@ export class SignalStrengthBar extends Component {
 SignalStrengthBar.defaultProps = {
     active: false,
     heightPercentage: 100,
-    activeColor: Variables.colors.secondary,
+    activeColor: Variables.colors.white,
     inactiveColor: Variables.colors.white.fade(0.9)
 };
 

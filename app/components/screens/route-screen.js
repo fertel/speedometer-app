@@ -6,6 +6,8 @@ import { Odometer } from '../odometer';
 import PropTypes from 'prop-types';
 import { SCREENS } from '../app';
 import { Variables } from '../../assets/styles/variables';
+import _ from 'lodash';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,10 +34,44 @@ const styles = StyleSheet.create({
     }
 });
 
+const edgePadding = {
+    bottom: Variables.spacer.base + 260, // TODO: this is arbitrarily set based on the input group height;
+    left: Variables.spacer.base * 2,
+    right: Variables.spacer.base * 2,
+    top: Variables.spacer.base * 2 + Constants.statusBarHeight
+};
+
 export class RouteScreen extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.map = null;
+        this.focusMap = this.focusMap.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        const { screenIndex } = this.props;
+        if (screenIndex === SCREENS.ROUTE && prevProps.screenIndex !== screenIndex) this.focusMap();
+    }
+
+    focusMap() {
+        const { routeCoordinates } = this.props;
+
+        const animated = true;
+        const canFocus = routeCoordinates.length > 1;
+        const options = { edgePadding, animated };
+
+        const coordinates = [
+            { latitude: routeCoordinates[0].latitude, longitude: routeCoordinates[0].longitude },
+            { latitude: _.last(routeCoordinates).latitude, longitude: _.last(routeCoordinates).longitude },
+        ];
+
+        if (canFocus) this.map.fitToCoordinates(coordinates, options);
+    }
+
     render() {
-        const { distanceTravelled, routeCoordinates, setScreenIndex, style, unit } = this.props;
+        const { distanceTravelled, routeCoordinates, setScreenIndex, style, unitMeasurement } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -44,6 +80,7 @@ export class RouteScreen extends Component {
                     style={styles.container}
                     showsUserLocation
                     followUserLocation
+                    ref={ref => { this.map = ref; }}
                     initialRegion={{
                         latitude: routeCoordinates[0].latitude,
                         latitudeDelta: 0.005,
@@ -62,7 +99,7 @@ export class RouteScreen extends Component {
                 <View style={styles.odometerContainer}>
                     <Odometer
                         onPress={() => setScreenIndex(SCREENS.DASHBOARD)}
-                        unit={unit}
+                        unit={unitMeasurement}
                         value={distanceTravelled}
                     />
                 </View>
@@ -78,7 +115,17 @@ RouteScreen.defaultProps = {
 RouteScreen.propTypes = {
     distanceTravelled: PropTypes.number,
     routeCoordinates: PropTypes.arrayOf(PropTypes.object),
+    screenIndex: PropTypes.number,
     setScreenIndex: PropTypes.func,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
-    unit: PropTypes.number
+    unitMeasurement: PropTypes.number
 };
+
+export default connect(
+    state => Object.assign({},
+        state.geolocationDuck,
+        state.unitMeasurementDuck
+    ),
+    Object.assign({}, {})
+)(RouteScreen);
+

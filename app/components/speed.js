@@ -29,6 +29,11 @@ export class Speed extends Component {
         this.renderValue = this.renderValue.bind(this);
     }
 
+    shouldComponentUpdate(nextProps) {
+        const { unit, value } = nextProps;
+        return (unit !== this.props.unit || value !== this.props.unit);
+    }
+
     convertValue() {
         const { unit, value } = this.props;
         const conversion = unit === UNIT_MEASUREMENT.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;

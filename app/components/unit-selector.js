@@ -32,6 +32,11 @@ export class UnitSelector extends Component {
         this.springAnimation = new Animated.Value(0);
     }
 
+    shouldComponentUpdate(nextProps) {
+        const { unit } = nextProps;
+        return unit !== this.props.unit;
+    }
+
     animateButton() {
         this.springAnimation.setValue(0);
 

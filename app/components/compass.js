@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
 
 export class Compass extends Component {
 
+    shouldComponentUpdate(nextProps) {
+        const { heading } = nextProps;
+        return heading !== this.props.heading;
+    }
+
     render() {
         const { style, heading } = this.props;
 
@@ -33,32 +38,16 @@ export class Compass extends Component {
             <View style={[styles.container, style]}>
                 <View style={styles.directionContainer}>
                     <View style={styles.direction}>
-                        <CompassDirection
-                            value={'N'}
-                            active={(heading <= 55 && heading >= 0)|| heading >= 305}
-                            activeColor={Variables.colors.danger}
-                        />
+                        <CompassDirection value={'N'} active={(heading <= 55 && heading >= 0)|| heading >= 305} />
                     </View>
                     <View style={styles.direction}>
-                        <CompassDirection
-                            value={'E'}
-                            active={heading >= 35 && heading <= 145}
-                            activeColor={Variables.colors.warning}
-                        />
+                        <CompassDirection value={'E'} active={heading >= 35 && heading <= 145} />
                     </View>
                     <View style={styles.direction}>
-                        <CompassDirection
-                            value={'S'}
-                            active={heading >= 125 && heading <= 235}
-                            activeColor={Variables.colors.secondary}
-                        />
+                        <CompassDirection value={'S'} active={heading >= 125 && heading <= 235} />
                     </View>
                     <View style={styles.direction}>
-                        <CompassDirection
-                            value={'W'}
-                            active={heading >= 215 && heading <= 325}
-                            activeColor={Variables.colors.tertiary}
-                        />
+                        <CompassDirection value={'W'} active={heading >= 215 && heading <= 325} />
                     </View>
                 </View>
             </View>

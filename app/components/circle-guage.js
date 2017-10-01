@@ -17,6 +17,11 @@ export class CircleGuage extends Component {
         this.renderSegments = this.renderSegments.bind(this);
     }
 
+    shouldComponentUpdate(nextProps) {
+        const { percentageFull } = nextProps;
+        return percentageFull !== this.props.percentageFull;
+    }
+
     renderSegments() {
         const { colors, diameter, percentageFull, strokeWidth, hasDangerZone } = this.props;
 
@@ -24,12 +29,12 @@ export class CircleGuage extends Component {
         const radiusAdjusted = radius - (strokeWidth * 2);
         const circumfrenceAdjusted = Math.PI * (radiusAdjusted * 2);
         const radiusShift = circumfrenceAdjusted / diameter;
-        const limit = diameter * (4/6);
+        const limit = diameter * (4 / 6);
         const segmentsFull = Math.ceil(percentageFull * limit) / 100;
 
         const results = [];
 
-        for (let index = 0; index < diameter && index < limit; index++) {
+        for (let index = 0; index < limit; index++) {
 
             const startColor = colors[0];
             const mixColor = colors[1];
@@ -37,9 +42,8 @@ export class CircleGuage extends Component {
             let color = index < segmentsFull ? mixColor.mix(startColor, index * (1 / limit)) : Variables.colors.white.fade(0.9);
 
             if (hasDangerZone && index < segmentsFull && index > limit - 36) color = colors[2];
-            if (index % 2) color = Variables.colors.white.fade(1);
 
-            results.push(
+            if (!(index % 2)) results.push(
                 <Svg.Circle
                     cx={'50%'}
                     cy={'50%'}

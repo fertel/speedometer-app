@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import { SignalStrength } from '../signal-strength';
 import { Speedometer } from '../speedometer';
 import { Variables } from '../../assets/styles/variables';
+import { connect } from 'react-redux';
+import { toggleUnitMeasurement } from '../../ducks/unit-measurement';
 
 const styles = StyleSheet.create({
     container: {
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
 export class DashboardScreen extends Component {
 
     render() {
-        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, unit, style, toggleUnitMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
 
         return (
             <View style={[styles.container, style]}>
@@ -37,7 +39,7 @@ export class DashboardScreen extends Component {
                     style={{ flex: 5 }}
                     toggleUnitMeasurement={toggleUnitMeasurement}
                     topSpeed={topSpeed}
-                    unit={unit}
+                    unit={unitMeasurement}
                 />
             </View>
         );
@@ -57,5 +59,15 @@ DashboardScreen.propTypes = {
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     toggleUnitMeasurement: PropTypes.func,
     topSpeed: PropTypes.number,
-    unit: PropTypes.number
+    unitMeasurement: PropTypes.number
 };
+
+export default connect(
+    state => Object.assign({},
+        state.geolocationDuck,
+        state.unitMeasurementDuck
+    ),
+    Object.assign({}, {
+        toggleUnitMeasurement,
+    })
+)(DashboardScreen);

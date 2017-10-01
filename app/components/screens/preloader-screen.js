@@ -30,20 +30,20 @@ const styles = StyleSheet.create({
 export class PreloaderScreen extends Component {
 
     render() {
-        const { backgroundColor, isLoading, loadingMessage, style } = this.props;
+        const { backgroundColor, loadingMessage, style } = this.props;
 
         return (
             <View style={[styles.container, { backgroundColor }, style]}>
                 <Animatable.View
                     duration={Variables.animations.durationBase}
-                    animation={isLoading ? 'fadeInUp' : 'zoomOut'}
+                    animation={'fadeInUp'}
                     useNativeDriver
                 >
                     <GlowingActivityIndicator style={styles.activityIndictator} />
                 </Animatable.View>
                 <Animatable.View
                     duration={Variables.animations.durationBase}
-                    animation={isLoading ? 'fadeInUp' : 'fadeOut'}
+                    animation={'fadeInUp'}
                     delay={Variables.animations.durationBase / 6}
                     useNativeDriver
                 >
@@ -56,13 +56,11 @@ export class PreloaderScreen extends Component {
 
 PreloaderScreen.defaultProps = {
     backgroundColor: Variables.colors.loading,
-    isLoading: true,
     loadingMessage: 'Loading...'
 };
 
 PreloaderScreen.propTypes = {
     backgroundColor: PropTypes.object,
-    isLoading: PropTypes.bool,
     loadingMessage: PropTypes.string,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
 };

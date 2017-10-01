@@ -26,26 +26,10 @@ export class SignalStrength extends Component {
         return (
             <View style={[styles.container, style]}>
                 <View style={styles.barContainer}>
-                    <SignalStrengthBar
-                        active={accuracy < 40}
-                        activeColor={Variables.colors.danger}
-                        heightPercentage={25}
-                    />
-                    <SignalStrengthBar
-                        active={accuracy < 30}
-                        activeColor={Variables.colors.warning}
-                        heightPercentage={50}
-                    />
-                    <SignalStrengthBar
-                        active={accuracy < 20}
-                        activeColor={Variables.colors.secondary}
-                        heightPercentage={75}
-                    />
-                    <SignalStrengthBar
-                        active={accuracy < 10}
-                        activeColor={Variables.colors.tertiary}
-                        heightPercentage={100}
-                    />
+                    <SignalStrengthBar active={accuracy < 20} heightPercentage={25} />
+                    <SignalStrengthBar active={accuracy < 15} heightPercentage={50} />
+                    <SignalStrengthBar active={accuracy < 10} heightPercentage={75} />
+                    <SignalStrengthBar active={accuracy < 5} heightPercentage={100} />
                 </View>
             </View>
         );
