@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         position: 'relative'
     },
     odometerContainer: {
-        backgroundColor: Variables.colors.black.fade(0.3),
+        backgroundColor: Variables.colors.primary.fade(0.2),
         bottom: 0,
         left: 0,
         padding: Variables.spacer.base / 2,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         zIndex: 10
     },
     statusBarBackround: {
-        backgroundColor: Variables.colors.black.fade(0.3),
+        backgroundColor: Variables.colors.primary.fade(0.2),
         height: Constants.statusBarHeight,
         left: 0,
         position: 'absolute',

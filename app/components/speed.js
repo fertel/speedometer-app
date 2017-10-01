@@ -7,12 +7,13 @@ import { UNIT_MEASUREMENT } from '../ducks/unit-measurement';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
-    container: { position: 'relative' },
+    container: { position: 'relative', marginBottom: Variables.spacer.base },
     text: {
         backgroundColor: 'transparent',
         fontFamily: Variables.fonts.digital.regular,
         fontSize: Variables.fontSizes.large,
-        lineHeight: Variables.lineHeights.large
+        lineHeight: Variables.lineHeights.large,
+        marginBottom: - 30
     },
     textBackground: {
         opacity: 0.2,
@@ -43,18 +44,12 @@ export class Speed extends Component {
 
     renderValue() {
         const value = Math.round(this.convertValue());
-
         let result = 0;
 
-        if (value < 0) {
-            result = '  0';
-        } else if (value < 10) {
-            result = '  ' + value;
-        } else if (value < 100) {
-            result = ' ' + value;
-        } else {
-            result = value;
-        }
+        if (value < 0) { result = '  0'; }
+        else if (value < 10) { result = '  ' + value; }
+        else if (value < 100) { result = ' ' + value; }
+        else { result = value; }
 
         return result;
     }

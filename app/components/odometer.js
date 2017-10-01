@@ -20,18 +20,21 @@ const styles = StyleSheet.create({
     },
     valueContainer: {
         backgroundColor: Variables.colors.primary.darken(0.1),
-        borderRadius: Variables.border.radius,
+        borderBottomLeftRadius: Variables.border.radius,
+        borderTopLeftRadius: Variables.border.radius,
         paddingHorizontal: Variables.spacer.base / 4,
         paddingVertical: Variables.spacer.base / 8
     },
     unit: {
-        color: Variables.colors.white,
+        color: Variables.colors.primary.darken(0.1),
         fontFamily: Variables.fonts.sansSerif.bold,
         fontSize: Variables.fontSizes.medium,
-        lineHeight: Variables.lineHeights.medium,
-        width: Variables.spacer.base
+        lineHeight: Variables.lineHeights.medium
     },
     unitContainer: {
+        backgroundColor: Variables.colors.white,
+        borderBottomRightRadius: Variables.border.radius,
+        borderTopRightRadius: Variables.border.radius,
         paddingHorizontal: Variables.spacer.base / 4,
         paddingVertical: Variables.spacer.base / 8
     }

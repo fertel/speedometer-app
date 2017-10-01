@@ -32,11 +32,12 @@ export class DashboardScreen extends Component {
 
     componentDidMount() {
         // setInterval(() => {
-        //     this.setState({ speed: Math.floor(Math.random() * (59 - 0)) + 0 });
+        //     this.setState({ speed: Math.floor(Math.random() * 59) });
         // }, 100);
     }
 
     render() {
+        // const { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
         const { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, speed, style, toggleUnitMeasurement, topSpeed } = this.props;
         // const { speed } = this.state;
 
@@ -44,12 +45,12 @@ export class DashboardScreen extends Component {
             <View style={[styles.container, style]}>
                 <KeepAwake />
                 <SignalStrength accuracy={accuracy} style={styles.signalStrength} />
-                <Compass heading={heading} style={{ flex: 1 }} />
+                <Compass heading={heading} style={{ flex: 2 }} />
                 <Speedometer
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
                     speed={speed}
-                    style={{ flex: 5 }}
+                    style={{ flex: 6 }}
                     toggleUnitMeasurement={toggleUnitMeasurement}
                     topSpeed={topSpeed}
                     unit={unitMeasurement}

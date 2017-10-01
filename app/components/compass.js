@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         justifyContent: 'center',
-        padding: Variables.spacer.base
+        paddingHorizontal: Variables.spacer.base,
+        paddingBottom: Variables.spacer.base / 2
     },
     direction: {
         alignItems: 'center',
