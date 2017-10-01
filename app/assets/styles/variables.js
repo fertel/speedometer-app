@@ -2,7 +2,7 @@ import Color from 'color';
 import Device from 'react-native-device-detection';
 import { Easing } from 'react-native';
 
-export const { width, isAndroid } = Device;
+export const { width, isAndroid, height } = Device;
 export const largeDevice = width > 400;
 export const smallDevice = width < 360;
 
@@ -55,6 +55,10 @@ export const Variables = {
         twitter: Color('#6cadde'),
         warning: Color('#ff9c00'),
         white: Color('#fff')
+    },
+    device: {
+        height,
+        width
     },
     fonts: {
         digital: { regular: 'bigital-smeven' },

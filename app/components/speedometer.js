@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { CircleGuage } from './circle-guage';
+import { MAX_SPEED } from '../config/config';
 import { Odometer } from './odometer';
 import PropTypes from 'prop-types';
 import { SCREENS } from './app';
@@ -67,7 +68,7 @@ export class Speedometer extends Component {
 
 Speedometer.defaultProps = {
     distanceTravelled: 0,
-    maxSpeed: 59, // roughly 130 MPH or 210 KM/H
+    maxSpeed: MAX_SPEED,
     speed: 0,
     topSpeed: 0
 };

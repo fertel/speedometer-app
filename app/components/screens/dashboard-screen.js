@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Compass } from '../compass';
+import { LineChart } from '../line-chart';
 import PropTypes from 'prop-types';
 import { SignalStrength } from '../signal-strength';
 import { Speedometer } from '../speedometer';
@@ -24,8 +25,20 @@ const styles = StyleSheet.create({
 
 export class DashboardScreen extends Component {
 
+    constructor(props) {
+        super(props);
+        // this.state = { speed: 0 };
+    }
+
+    componentDidMount() {
+        // setInterval(() => {
+        //     this.setState({ speed: Math.floor(Math.random() * (59 - 0)) + 0 });
+        // }, 100);
+    }
+
     render() {
-        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, speed, style, toggleUnitMeasurement, topSpeed } = this.props;
+        // const { speed } = this.state;
 
         return (
             <View style={[styles.container, style]}>
@@ -39,6 +52,11 @@ export class DashboardScreen extends Component {
                     style={{ flex: 5 }}
                     toggleUnitMeasurement={toggleUnitMeasurement}
                     topSpeed={topSpeed}
+                    unit={unitMeasurement}
+                />
+                <LineChart
+                    style={{ flex: 3 }}
+                    speed={speed}
                     unit={unitMeasurement}
                 />
             </View>

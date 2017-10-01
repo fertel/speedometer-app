@@ -67,7 +67,7 @@ class App extends Component {
                     appIsLoaded: true,
                     screenIndex: SCREENS.DASHBOARD
                 });
-            }, 3000);
+            }, 1000);
         }
     }
 
