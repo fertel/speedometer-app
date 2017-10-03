@@ -10,17 +10,23 @@
     "primaryColor": "#cccccc",
     "icon": "./app/assets/icons/app-icon.png",
     "loading": {
-      "icon": "./app/assets/icons/loading-icon.png"
+      "icon": "./app/assets/icons/loading-icon.png",
+      "backgroundColor": "#262c42"
     },
     "packagerOpts": {
       "assetExts": ["otf", "ttf", "mp4"]
     },
     "ios": {
-      "buildNumber": "8",
+      "buildNumber": "1",
       "bundleIdentifier": "io.breadbox.speedometer",
       "icon": "./app/assets/icons/app-icon.png",
       "isRemoteJSEnabled": false,
-      "supportsTablet": false
+      "supportsTablet": false,
+      "splash": {
+        "backgroundColor": "#262c42",
+        "resizeMode": "cover",
+        "image": ""
+      }
     }
   }
 }

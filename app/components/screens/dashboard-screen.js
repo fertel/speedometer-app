@@ -50,7 +50,7 @@ export class DashboardScreen extends Component {
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
                     speed={speed}
-                    style={{ flex: 6 }}
+                    style={{ flex: 8 }}
                     toggleUnitMeasurement={toggleUnitMeasurement}
                     topSpeed={topSpeed}
                     unit={unitMeasurement}

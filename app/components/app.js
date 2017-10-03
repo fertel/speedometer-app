@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
+import { AdMobBanner } from 'expo';
 import DashboardScreen from './screens/dashboard-screen';
 import { Permissions } from 'expo';
 import { PreloaderScreen } from './screens/preloader-screen';
@@ -90,6 +91,12 @@ class App extends Component {
                     <DashboardScreen />
                     <RouteScreen />
                 </TransitionContainer>
+                <AdMobBanner
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-6589226904266047/9099572271"
+                    testDeviceID="EMULATOR"
+                    didFailToReceiveAdWithError={() => console.log('error')}
+                />
             </View>
         );
     }
