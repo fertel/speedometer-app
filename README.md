@@ -3,6 +3,8 @@
 
 A mobile application built using React Native and the [Expo SDK](https://docs.expo.io/versions/v21.0.0/sdk/index.html#expo-sdk).
 
+[![Speedometer](https://i.imgur.com/ni6pleo.jpg)](http://breadbox.io)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
