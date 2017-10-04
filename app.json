@@ -1,17 +1,17 @@
 {
   "expo": {
     "name": "Speedometer",
-    "description": "A simple speedometer",
-    "slug": "speedometer",
+    "description": "A simple speedometer.",
+    "icon": "./app/assets/icons/app-icon.png",
+    "orientation": "portrait",
+    "primaryColor": "#262c42",
     "privacy": "public",
     "sdkVersion": "21.0.0",
+    "slug": "speedometer",
     "version": "0.1.0",
-    "orientation": "portrait",
-    "primaryColor": "#cccccc",
-    "icon": "./app/assets/icons/app-icon.png",
     "loading": {
       "icon": "./app/assets/icons/loading-icon.png",
-      "backgroundColor": "#262c42"
+      "backgroundColor": "#796de4"
     },
     "packagerOpts": {
       "assetExts": ["otf", "ttf", "mp4"]
@@ -23,9 +23,9 @@
       "isRemoteJSEnabled": false,
       "supportsTablet": false,
       "splash": {
-        "backgroundColor": "#262c42",
-        "resizeMode": "cover",
-        "image": ""
+        "backgroundColor": "#796de4",
+        "image": "./app/assets/images/splash-screen.png",
+        "resizeMode": "cover"
       }
     }
   }
