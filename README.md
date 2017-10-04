@@ -1,7 +1,7 @@
 # Speedometer Mobile App
 [![Breadbox.io](http://i.imgur.com/vAw3l8H.png)](http://breadbox.io)
 
-A mobile application built using React Native and the [Expo SDK](https://docs.expo.io/versions/v18.0.0/sdk/index.html#expo-sdk).
+A mobile application built using React Native and the [Expo SDK](https://docs.expo.io/versions/v21.0.0/sdk/index.html#expo-sdk).
 
 ## Getting Started
 
@@ -210,7 +210,7 @@ https://exp.host/@schrjos/ride-or-die
 
 [exp] Building...
 [exp] Build started, it may take a few minutes to complete.
-[exp] Build ID: bc07e32b-8929-4909-b307-ecd66f479049
+[exp] Build ID: bXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 [exp] Run `exp build:status` to monitor it.
 ```
 
