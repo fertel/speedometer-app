@@ -3,6 +3,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { GEOLOCATION_OPTIONS } from '../config/config';
 import { Location } from 'expo';
 import { calculateDistance } from '../util/calculate-distance';
+import { formatGeolocationSuccessResponse } from '../util/format-geolocation-success-response';
 
 const DEFAULT_STATE = {
     accuracy: 40,
@@ -48,20 +49,16 @@ export const watchGeolocation = () => dispatch => {
 
     dispatch(geolocationRequest());
 
-    return Location.watchPositionAsync(GEOLOCATION_OPTIONS,
-        success => {
-            const { coords } = success;
-            const { accuracy, heading, speed, latitude, longitude } = coords;
-            const currentPosition = { latitude, longitude };
-
-            const result = {
-                accuracy,
-                heading,
-                currentPosition,
-                speed
-            };
-
-            return dispatch(geolocationSuccess(result));
-        }
-    );
+    setInterval(() => {
+        return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
+            .then(success => {
+                const result = formatGeolocationSuccessResponse(success);
+                return dispatch(geolocationSuccess(result));
+            })
+            // TODO: have error modal;
+            .catch(error => {
+                console.log('error: ', error);
+                return dispatch(geolocationFailure());
+            });
+    }, 300);
 };
