@@ -30,14 +30,14 @@ export class DashboardScreen extends Component {
         // this.state = { speed: 0 };
     }
 
-    componentDidMount() {
-        // setInterval(() => {
-        //     this.setState({ speed: Math.floor(Math.random() * 59) });
-        // }, 100);
-    }
+    // componentDidMount() {
+    //     setInterval(() => {
+    //         this.setState({ speed: Math.floor(Math.random() * 59) });
+    //     }, 100);
+    // }
 
     render() {
-        // const { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
+        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
         const { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, speed, style, toggleUnitMeasurement, topSpeed } = this.props;
         // const { speed } = this.state;
 
@@ -56,8 +56,9 @@ export class DashboardScreen extends Component {
                     unit={unitMeasurement}
                 />
                 <LineChart
-                    style={{ flex: 3 }}
                     speed={speed}
+                    style={{ flex: 3 }}
+                    topSpeed={topSpeed}
                     unit={unitMeasurement}
                 />
             </View>

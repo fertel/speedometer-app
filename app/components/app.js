@@ -10,7 +10,7 @@ import RouteScreen from './screens/route-screen';
 import { TransitionContainer } from './transition-container';
 import { Variables } from '../assets/styles/variables';
 import { connect } from 'react-redux';
-import { watchGeolocation } from '../ducks/geolocation';
+import { getCurrentPosition } from '../ducks/geolocation';
 
 export const SCREENS = {
     PRELOADER: 0,
@@ -48,11 +48,11 @@ class App extends Component {
     }
 
     componentWillMount() {
-        const { watchGeolocation } = this.props;
+        const { getCurrentPosition } = this.props;
 
         Permissions.askAsync(Permissions.LOCATION).then(response => {
             const { status } = response;
-            if (status === 'granted') watchGeolocation();
+            if (status === 'granted') setInterval(getCurrentPosition, 300);
         });
     }
 
@@ -104,10 +104,10 @@ class App extends Component {
 
 App.propTypes = {
     routeCoordinates: PropTypes.array,
-    watchGeolocation: PropTypes.func
+    getCurrentPosition: PropTypes.func
 };
 
 export default connect(
     state => Object.assign({}, state.geolocationDuck ),
-    Object.assign({}, { watchGeolocation })
+    Object.assign({}, { getCurrentPosition })
 )(App);

@@ -39,7 +39,7 @@ export class CircleGuage extends Component {
             const startColor = colors[0];
             const mixColor = colors[1];
 
-            let color = index < segmentsFull ? mixColor.mix(startColor, index * (1 / limit)) : Variables.colors.white.fade(0.9);
+            let color = index < segmentsFull ? startColor.mix(mixColor, index * (1 / limit)) : Variables.colors.white.fade(0.9);
 
             if (hasDangerZone && index < segmentsFull && index > limit - 36) color = colors[2];
 

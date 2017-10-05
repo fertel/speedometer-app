@@ -71,16 +71,17 @@ export class LineChart extends Component {
     }
 
     render() {
-        const { style, speed } = this.props;
+        const { style, speed, topSpeed } = this.props;
 
-        const color = Variables.colors.warning.mix(Variables.colors.secondary, speed / MAX_SPEED);
+        const chartMax = topSpeed > (MAX_SPEED / 3) ? topSpeed : (MAX_SPEED / 3);
+        const color = Variables.colors.secondary.mix(Variables.colors.warning, speed / chartMax);
         const graphHeight = 100;
 
         return (
             <View style={[styles.container, style]}>
                 <View style={styles.background}>
-                    <Text style={[styles.text, { top: Variables.spacer.base / 4 }]}>{Math.ceil(this.convertValue(MAX_SPEED))}</Text>
-                    <Text style={[styles.text, { top: (graphHeight / 2) - (Variables.lineHeights.small / 2) }]}>{Math.ceil(this.convertValue(MAX_SPEED / 2))}</Text>
+                    <Text style={[styles.text, { top: Variables.spacer.base / 4 }]}>{Math.ceil(this.convertValue(chartMax))}</Text>
+                    <Text style={[styles.text, { top: (graphHeight / 2) - (Variables.lineHeights.small / 2) }]}>{Math.ceil(this.convertValue(chartMax / 2))}</Text>
                     <Text style={[styles.text, { bottom: Variables.spacer.base / 4 }]}>0</Text>
                     <View style={styles.chart}>
                         <MultiLineChart
@@ -96,7 +97,7 @@ export class LineChart extends Component {
                             hideYAxisLabels
                             lineWidth={Variables.border.width}
                             maxX={SPEED_CHART_MAX_LENGTH}
-                            maxY={this.convertValue(MAX_SPEED)}
+                            maxY={this.convertValue(chartMax)}
                             minX={0}
                             minY={0}
                             scatterPlotEnable={false}
@@ -115,6 +116,7 @@ LineChart.defaultProps = {
 
 LineChart.propTypes = {
     speed: PropTypes.number,
-    unit: PropTypes.number,
-    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
+    topSpeed: PropTypes.number,
+    unit: PropTypes.number
 };

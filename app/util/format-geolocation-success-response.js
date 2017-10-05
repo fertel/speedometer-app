@@ -5,9 +5,9 @@ export const formatGeolocationSuccessResponse = response => {
 
     const result = {
         accuracy,
-        heading,
         currentPosition,
-        speed
+        heading,
+        speed: speed < 0 ? 0 : speed
     };
 
     return result;

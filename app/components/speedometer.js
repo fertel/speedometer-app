@@ -41,11 +41,10 @@ export class Speedometer extends Component {
                 </View>
                 <View style={styles.absolutePosition}>
                     <CircleGuage
-                        colors={[Variables.colors.danger, Variables.colors.warning, Variables.colors.danger]}
+                        colors={[Variables.colors.warning, Variables.colors.danger, Variables.colors.danger]}
                         diameter={380}
                         percentageFull={topSpeed / maxSpeed * 100}
                         strokeWidth={8}
-                        hasDangerZone
                     />
                 </View>
                 <View style={styles.absolutePosition}>

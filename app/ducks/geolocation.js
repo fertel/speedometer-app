@@ -9,20 +9,15 @@ const DEFAULT_STATE = {
     accuracy: 40,
     distanceTravelled: 0, // in meters
     heading: -1, // set to -1 to prevent flash of 0 degrees of ('N') on the compass on load
-    isRequestingGeolocation: false,
     lastPosition: {},
     routeCoordinates: [],
     speed: 0,
     topSpeed: 0
 };
 
-const REQUEST = 'geolocation/REQUEST';
 const SUCCESS = 'geolocation/SUCCESS';
-const FAILURE = 'geolocation/FAILURE';
 
 export default handleActions({
-    [FAILURE]: state => Object.assign({}, state, {isRequestingGeolocation: false}),
-    [REQUEST]: state => Object.assign({}, state, {isRequestingGeolocation: true}),
     [SUCCESS]: (state, action) => {
         const result = action.payload;
         const { accuracy, currentPosition, heading, speed } = result;
@@ -32,7 +27,6 @@ export default handleActions({
             accuracy,
             distanceTravelled: distanceTravelled + calculateDistance(lastPosition, currentPosition),
             heading,
-            isRequestingGeolocation: false,
             lastPosition: currentPosition,
             routeCoordinates: routeCoordinates.concat([currentPosition]),
             speed,
@@ -41,24 +35,14 @@ export default handleActions({
     }
 }, DEFAULT_STATE);
 
-const geolocationRequest = createAction(REQUEST);
 const geolocationSuccess = createAction(SUCCESS);
-const geolocationFailure = createAction(FAILURE);
 
-export const watchGeolocation = () => dispatch => {
+export const getCurrentPosition = () => dispatch => {
 
-    dispatch(geolocationRequest());
-
-    setInterval(() => {
-        return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
-            .then(success => {
-                const result = formatGeolocationSuccessResponse(success);
-                return dispatch(geolocationSuccess(result));
-            })
-            // TODO: have error modal;
-            .catch(error => {
-                console.log('error: ', error);
-                return dispatch(geolocationFailure());
-            });
-    }, 300);
+    // TODO: Throw error modal if no geolocation
+    return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
+        .then(success => {
+            const result = formatGeolocationSuccessResponse(success);
+            return dispatch(geolocationSuccess(result));
+        });
 };
