@@ -87,11 +87,11 @@ export class SidebarMenuContainer extends Component {
     }
 
     render() {
-        const { children, style } = this.props;
+        const { children, menuWidth, style } = this.props;
 
         return (
             <View style={[styles.container, style]}>
-                <Animated.View style={[styles.absolutePosition, this.getMenuTransform()]}>
+                <Animated.View style={[styles.absolutePosition, { width: menuWidth }, this.getMenuTransform()]}>
                     <SidebarMenu />
                 </Animated.View>
                 <Animated.View style={[styles.absolutePosition, this.getChildrenTransform()]}>{children}</Animated.View>
