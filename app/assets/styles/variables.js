@@ -61,6 +61,7 @@ export const Variables = {
         width
     },
     fonts: {
+        appIcons: { regular: 'app-icons' },
         digital: { regular: 'bigital-smeven' },
         sansSerif: {
             bold: 'nelvetica-beue-bold',

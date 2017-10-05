@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { Compass } from '../compass';
 import { LineChart } from '../line-chart';
 import PropTypes from 'prop-types';
+import { SidebarMenuToggle } from '../sidebar-menu-toggle';
 import { SignalStrength } from '../signal-strength';
 import { Speedometer } from '../speedometer';
 import { Variables } from '../../assets/styles/variables';
@@ -15,6 +16,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Variables.colors.primary,
         flex: 1
+    },
+    sidebarMenuToggle: {
+        position: 'absolute',
+        left: Variables.spacer.base / 2,
+        top: Constants.statusBarHeight + Variables.spacer.base / 2
     },
     signalStrength: {
         position: 'absolute',
@@ -38,14 +44,18 @@ export class DashboardScreen extends Component {
 
     render() {
         // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
-        const { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, speed, style, toggleUnitMeasurement, topSpeed } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
         // const { speed } = this.state;
 
         return (
             <View style={[styles.container, style]}>
                 <KeepAwake />
                 <SignalStrength accuracy={accuracy} style={styles.signalStrength} />
-                <Compass heading={heading} style={{ flex: 2 }} />
+                <SidebarMenuToggle
+                    onPress={toggleSidebarMenu}
+                    style={styles.sidebarMenuToggle}
+                />
+                <Compass heading={heading} style={{ flex: 3 }} />
                 <Speedometer
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
@@ -77,6 +87,7 @@ DashboardScreen.propTypes = {
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
+    toggleSidebarMenu: PropTypes.func,
     toggleUnitMeasurement: PropTypes.func,
     topSpeed: PropTypes.number,
     unitMeasurement: PropTypes.number

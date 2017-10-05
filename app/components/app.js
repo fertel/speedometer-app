@@ -7,6 +7,7 @@ import { Permissions } from 'expo';
 import { PreloaderScreen } from './screens/preloader-screen';
 import PropTypes from 'prop-types';
 import RouteScreen from './screens/route-screen';
+import { SidebarMenuContainer } from './sidebar-menu-container';
 import { TransitionContainer } from './transition-container';
 import { Variables } from '../assets/styles/variables';
 import { connect } from 'react-redux';
@@ -41,10 +42,12 @@ class App extends Component {
         super(props);
         this.state = {
             appIsLoaded: false,
+            menuOpen: false,
             screenIndex: SCREENS.PRELOADER
         };
 
         this.setScreenIndex = this.setScreenIndex.bind(this);
+        this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this);
     }
 
     componentWillMount() {
@@ -76,27 +79,34 @@ class App extends Component {
         this.setState({ screenIndex: index || SCREENS.DASHBOARD });
     }
 
+    toggleSidebarMenu() {
+        const { menuOpen } = this.state;
+        this.setState({ menuOpen: !menuOpen });
+    }
+
     render() {
-        const { screenIndex } = this.state;
+        const { menuOpen, screenIndex } = this.state;
 
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
-                <TransitionContainer setScreenIndex={this.setScreenIndex} screenIndex={screenIndex}>
-                    <PreloaderScreen
-                        loadingMessage={'Getting location...'}
-                        style={styles.preloader}
-                        backgroundColor={Variables.colors.primary}
-                    />
-                    <DashboardScreen />
-                    <RouteScreen />
-                </TransitionContainer>
-                <AdMobBanner
+                <SidebarMenuContainer menuOpen={menuOpen}>
+                    <TransitionContainer setScreenIndex={this.setScreenIndex} screenIndex={screenIndex}>
+                        <PreloaderScreen
+                            loadingMessage={'Getting location...'}
+                            style={styles.preloader}
+                            backgroundColor={Variables.colors.primary.darken(0.3)}
+                        />
+                        <DashboardScreen toggleSidebarMenu={this.toggleSidebarMenu} />
+                        <RouteScreen />
+                    </TransitionContainer>
+                </SidebarMenuContainer>
+                {/* <AdMobBanner
                     bannerSize="fullBanner"
                     adUnitID="ca-app-pub-6589226904266047/9099572271"
                     testDeviceID="EMULATOR"
                     didFailToReceiveAdWithError={() => console.log('error')}
-                />
+                /> */}
             </View>
         );
     }

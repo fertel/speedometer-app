@@ -29,6 +29,7 @@ export class AppContainer extends Component {
         // const imageAssets = this.cacheImages([require('./app/assets/images/logo-white.png')]);
 
         const fontAssets = this.cacheFonts([
+            { 'app-icons': require('./app/assets/fonts/app-icons/app-icons.ttf') },
             { 'bigital-smeven': require('./app/assets/fonts/bigital-smeven/bigital-smeven.ttf') },
             { 'nelvetica-beue': require('./app/assets/fonts/nelvetica-beue/nelvetica-beue.otf') },
             { 'nelvetica-beue-bold': require('./app/assets/fonts/nelvetica-beue/nelvetica-beue-bold.otf') },
