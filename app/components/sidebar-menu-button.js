@@ -28,26 +28,17 @@ export class SidebarMenuButton extends Component {
         this.animate = this.animate.bind(this);
         this.getBackgroundColor = this.getBackgroundColor.bind(this);
         this.getTextColor = this.getTextColor.bind(this);
-        this.getTransform = this.getTransform.bind(this);
         this.onPress = this.onPress.bind(this);
     }
 
     componentWillMount() {
-        this.springAnimation = new Animated.Value(0);
-        this.timingAnimation = new Animated.Value(0);
+        this.animation = new Animated.Value(0);
     }
 
     animate() {
-        this.springAnimation.setValue(0);
-        this.timingAnimation.setValue(0);
+        this.animation.setValue(0);
 
-        Animated.spring(this.springAnimation, {
-            friction: 5,
-            tension: 100,
-            toValue: 2
-        }).start();
-
-        Animated.timing(this.timingAnimation, {
+        Animated.timing(this.animation, {
             duration: Variables.animations.durationBase,
             easing: Variables.animations.defaultEasing,
             toValue: 2
@@ -60,7 +51,7 @@ export class SidebarMenuButton extends Component {
         const fromValue = inverted ? Variables.colors.white : this.props.color;
         const toValue = inverted ? this.props.color : Variables.colors.white;
 
-        const backgroundColor = this.timingAnimation.interpolate({
+        const backgroundColor = this.animation.interpolate({
             inputRange: [0, 1, 2],
             outputRange: [
                 fromValue.rgb().string(),
@@ -78,7 +69,7 @@ export class SidebarMenuButton extends Component {
         const fromValue = inverted ? this.props.color : Variables.colors.white;
         const toValue = inverted ? Variables.colors.white : this.props.color;
 
-        const color = this.timingAnimation.interpolate({
+        const color = this.animation.interpolate({
             inputRange: [0, 1, 2],
             outputRange: [
                 fromValue.rgb().string(),
@@ -88,15 +79,6 @@ export class SidebarMenuButton extends Component {
         });
 
         return { color };
-    }
-
-    getTransform() {
-        const scale = this.springAnimation.interpolate({
-            inputRange: [0, 1, 2],
-            outputRange: [1, 1.2, 1]
-        });
-
-        return { transform: [{ scale }] };
     }
 
     onPress() {
@@ -114,8 +96,7 @@ export class SidebarMenuButton extends Component {
                 <TouchableWithoutFeedback onPress={this.onPress}>
                     <Animated.View style={[
                         styles.buttonContainer,
-                        this.getBackgroundColor(),
-                        this.getTransform()
+                        this.getBackgroundColor()
                     ]}>
                         <Animated.Text style={[styles.text, this.getTextColor()]}>{value.toUpperCase()}</Animated.Text>
                     </Animated.View>
