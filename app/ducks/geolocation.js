@@ -37,12 +37,13 @@ export default handleActions({
 
 const geolocationSuccess = createAction(SUCCESS);
 
-export const getCurrentPosition = () => dispatch => {
+export const watchPosition = () => dispatch => {
 
     // TODO: Throw error modal if no geolocation
-    return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
-        .then(success => {
+    return Location.watchPositionAsync(GEOLOCATION_OPTIONS,
+        success => {
             const result = formatGeolocationSuccessResponse(success);
             return dispatch(geolocationSuccess(result));
-        });
+        }
+    );
 };
