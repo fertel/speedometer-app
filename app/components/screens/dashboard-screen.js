@@ -33,28 +33,31 @@ export class DashboardScreen extends Component {
 
     // constructor(props) {
     //     super(props);
-    //     this.state = { speed: 0 };
+    //     this.state = { speed: 0, topSpeed: 0 };
     // }
 
     // componentDidMount() {
     //     setInterval(() => {
-    //         this.setState({ speed: Math.floor(Math.random() * 59) });
+    //         this.setState({
+    //             speed: Math.floor(Math.random() * 59),
+    //             topSpeed: Math.floor(Math.random() * 59),
+    //         });
     //     }, 1000);
     // }
 
     render() {
-        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu, topSpeed } = this.props;
+        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
         const { accuracy, distanceTravelled, heading, setScreenIndex, speed, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
-        // const { speed } = this.state;
+        // const { speed, topSpeed } = this.state;
 
         return (
             <View style={[styles.container, style]}>
                 <KeepAwake />
                 <SignalStrength accuracy={accuracy} style={styles.signalStrength} />
-                <SidebarMenuToggle
+                {/* <SidebarMenuToggle
                     onPress={toggleSidebarMenu}
                     style={styles.sidebarMenuToggle}
-                />
+                /> */}
                 <Compass heading={heading} style={{ flex: 3 }} />
                 <Speedometer
                     distanceTravelled={distanceTravelled}

@@ -33,7 +33,7 @@ export class CompassDirection extends Component {
 
 CompassDirection.defaultProps = {
     active: false,
-    activeColor: Variables.colors.secondary,
+    activeColor: Variables.colors.white,
     inactiveColor: Variables.colors.white.fade(0.9),
     value: 'N'
 };
