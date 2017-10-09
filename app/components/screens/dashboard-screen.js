@@ -31,15 +31,15 @@ const styles = StyleSheet.create({
 
 export class DashboardScreen extends Component {
 
-    constructor(props) {
-        super(props);
-        // this.state = { speed: 0 };
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = { speed: 0 };
+    // }
 
     // componentDidMount() {
     //     setInterval(() => {
     //         this.setState({ speed: Math.floor(Math.random() * 59) });
-    //     }, 100);
+    //     }, 1000);
     // }
 
     render() {

@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Svg } from 'expo';
 import { Variables } from '../assets/styles/variables';
+import eases from 'eases';
 
 const styles = StyleSheet.create({
     circle: { transform: [ { rotate: '150deg' }] },
@@ -14,23 +15,67 @@ export class CircleGuage extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            previousPercentageFull: 0,
+            currentPercentageFull: 0
+        };
+
         this.renderSegments = this.renderSegments.bind(this);
+        this.startAnimationTime = null;
+        this.timeout = null;
+        this.updateNumber = this.updateNumber.bind(this);
     }
 
-    shouldComponentUpdate(nextProps) {
-        const { percentageFull } = nextProps;
-        return percentageFull !== this.props.percentageFull;
+    componentWillReceiveProps(nextProps) {
+        const { currentPercentageFull } = this.state;
+        const { percentageFull } = this.props;
+        const value = parseInt(percentageFull, 10);
+
+        if (parseInt(nextProps.percentageFull, 10) === value) return;
+
+        this.setState({ previousPercentageFull: currentPercentageFull });
+        this.startAnimationTime = (new Date()).getTime();
+        this.updateNumber();
+    }
+
+    shouldComponentUpdate(nextState) {
+        return nextState.currentPercentageFull !== this.state.currentPercentageFull;
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout);
+        clearTimeout(this.delayTimeout);
+    }
+
+    updateNumber() {
+        const { ease, speed, percentageFull } = this.props;
+        const { previousPercentageFull } = this.state;
+
+        const value = parseInt(percentageFull, 10);
+        const now = (new Date()).getTime();
+        const elapsedTime = Math.min(speed, (now - this.startAnimationTime));
+        const progress = eases[ease](elapsedTime / speed);
+        const currentDisplayValue = Math.round((value - previousPercentageFull) * progress + previousPercentageFull);
+
+        this.setState({ currentPercentageFull: currentDisplayValue });
+
+        if (elapsedTime < speed) {
+            this.timeout = setTimeout(this.updateNumber, 16);
+        } else {
+            this.setState({ previousPercentageFull: value });
+        }
     }
 
     renderSegments() {
-        const { colors, diameter, percentageFull, strokeWidth, hasDangerZone } = this.props;
+        const { colors, diameter, hasDangerZone, strokeWidth } = this.props;
+        const { currentPercentageFull } = this.state;
 
         const radius = diameter / 2;
         const radiusAdjusted = radius - (strokeWidth * 2);
         const circumfrenceAdjusted = Math.PI * (radiusAdjusted * 2);
         const radiusShift = circumfrenceAdjusted / diameter;
         const limit = diameter * (4 / 6);
-        const segmentsFull = Math.ceil(percentageFull * limit) / 100;
+        const segmentsFull = Math.ceil(currentPercentageFull * limit) / 100;
 
         const results = [];
 
@@ -77,15 +122,19 @@ export class CircleGuage extends Component {
 CircleGuage.defaultProps = {
     colors: [Variables.colors.secondary, Variables.colors.tertiary, Variables.colors.danger],
     diameter: 360,
+    ease: 'quintInOut',
     hasDangerZone: false,
     percentageFull: 0,
+    speed: 500,
     strokeWidth: 15
 };
 
 CircleGuage.propTypes = {
     colors: PropTypes.array,
     diameter: PropTypes.number,
+    ease: PropTypes.string,
     hasDangerZone: PropTypes.bool,
     percentageFull: PropTypes.number,
+    speed: PropTypes.number,
     strokeWidth: PropTypes.number
 };

@@ -48,9 +48,7 @@ export class Speed extends Component {
         return (
             <View style={styles.container}>
                 <Text style={[styles.text, styles.textBackground, { color: color }]}>000</Text>
-                <Text style={[styles.text, styles.textForeground, { color }]}>
-                    <NumberEasing value={this.convertValue()} />
-                </Text>
+                <NumberEasing style={[styles.text, styles.textForeground, { color }]} value={this.convertValue()} />
             </View>
         );
     }
