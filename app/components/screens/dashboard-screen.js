@@ -43,7 +43,7 @@ export class DashboardScreen extends Component {
     // }
 
     render() {
-        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, topSpeed } = this.props;
+        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu, topSpeed } = this.props;
         const { accuracy, distanceTravelled, heading, setScreenIndex, speed, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
         // const { speed } = this.state;
 
