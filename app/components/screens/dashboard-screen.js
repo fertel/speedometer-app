@@ -33,23 +33,24 @@ const styles = StyleSheet.create({
 
 export class DashboardScreen extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { speed: 0, topSpeed: 59, speeds: [0, 20, 40, 1, 59, 0, 30, 10, 5, 1, 2, 3] };
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = { speed: 0, topSpeed: 0, speeds: [0, 20, 40, 1, 59, 0, 30, 10, 5, 1, 2, 3] };
+    // }
 
-    componentDidMount() {
-        setInterval(() => {
-            this.setState({
-                speed: Math.floor(Math.random() * 59)
-            });
-        }, 1000);
-    }
+    // componentDidMount() {
+    //     setInterval(() => {
+    //         this.setState({
+    //             speed: Math.floor(Math.random() * 59),
+    //             topSpeed: Math.floor(Math.random() * 59)
+    //         });
+    //     }, 1000);
+    // }
 
     render() {
-        let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
-        // const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
-        const { speed, topSpeed, speeds } = this.state;
+        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
+        // const { speed, topSpeed, speeds } = this.state;
 
         return (
             <View style={[styles.container, style]}>
@@ -77,21 +78,21 @@ export class DashboardScreen extends Component {
                 />
                 <View style={{ flex: 2, paddingHorizontal: Variables.spacer.base, flexDirection: 'row', justifyContent: 'space-between' }}>
                     <SmallGuage
+                        color={Variables.colors.secondary}
+                        label={'Avg'}
                         unit={unitMeasurement}
                         value={speed}
-                        label={'Avg'}
-                        color={Variables.colors.secondary}
                     />
                     <SmallGuage
+                        color={Variables.colors.secondary}
+                        label={'Max'}
                         unit={unitMeasurement}
                         value={topSpeed}
-                        label={'Max'}
-                        color={Variables.colors.secondary}
                     />
                     <Timer
-                        value={topSpeed}
-                        label={'Duration'}
                         color={Variables.colors.secondary}
+                        label={'Duration'}
+                        value={topSpeed}
                     />
                 </View>
             </View>
