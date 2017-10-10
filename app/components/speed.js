@@ -8,13 +8,14 @@ import { UNIT_MEASUREMENT } from '../ducks/unit-measurement';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
-    container: { position: 'relative', marginBottom: Variables.spacer.base },
+    container: {
+        position: 'relative',
+        alignItems: 'center'
+    },
     text: {
         backgroundColor: 'transparent',
         fontFamily: Variables.fonts.digital.regular,
-        fontSize: Variables.fontSizes.large,
-        lineHeight: Variables.lineHeights.large,
-        marginBottom: - 30
+        textAlign: 'right'
     },
     textBackground: { opacity: 0.2 },
     textForeground: {
@@ -39,16 +40,16 @@ export class Speed extends Component {
         const { unit, value } = this.props;
         const conversion = unit === UNIT_MEASUREMENT.KILOMETERS ? convertMetersPerSecondToKilometersPerHour : convertMetersPerSecondToMilesPerHour;
 
-        return Math.round(conversion(value)).toString();
+        return Math.round(conversion(value));
     }
 
     render() {
-        const { color } = this.props;
+        const { color, fontSize, lineHeight, style } = this.props;
 
         return (
-            <View style={styles.container}>
-                <Text style={[styles.text, styles.textBackground, { color: color }]}>000</Text>
-                <NumberEasing style={[styles.text, styles.textForeground, { color }]} value={this.convertValue()} />
+            <View style={[styles.container, style]}>
+                <Text style={[styles.text, styles.textBackground, { color, fontSize, lineHeight }]}>888</Text>
+                <NumberEasing style={[styles.text, styles.textForeground, { color, fontSize, lineHeight }]} value={this.convertValue()} />
             </View>
         );
     }
@@ -56,12 +57,17 @@ export class Speed extends Component {
 
 Speed.defaultProps = {
     color: Variables.colors.white,
+    fontSize: Variables.fontSizes.large,
+    lineHeight: Variables.lineHeights.large,
     unit: UNIT_MEASUREMENT.KILOMETERS,
     value: 0
 };
 
 Speed.propTypes = {
     color: PropTypes.object,
+    fontSize: PropTypes.number,
+    lineHeight: PropTypes.number,
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     unit: PropTypes.number,
     value: PropTypes.number
 };

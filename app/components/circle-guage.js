@@ -7,7 +7,10 @@ import { Variables } from '../assets/styles/variables';
 import eases from 'eases';
 
 const styles = StyleSheet.create({
-    circle: { transform: [ { rotate: '150deg' }] },
+    circle: {
+        top: Variables.spacer.base * 2,
+        transform: [ { rotate: '150deg' }]
+    },
     container: { position: 'relative' }
 });
 
@@ -31,7 +34,7 @@ export class CircleGuage extends Component {
         const { percentageFull } = this.props;
         const value = parseInt(percentageFull, 10);
 
-        if (parseInt(nextProps.percentageFull, 10) === value) return;
+        if (nextProps.percentageFull === value) return;
 
         this.setState({ previousPercentageFull: currentPercentageFull });
         this.startAnimationTime = (new Date()).getTime();

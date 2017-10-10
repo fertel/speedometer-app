@@ -12,6 +12,7 @@ const DEFAULT_STATE = {
     lastPosition: {},
     routeCoordinates: [],
     speed: 0,
+    speeds: [0],
     topSpeed: 0
 };
 
@@ -21,7 +22,10 @@ export default handleActions({
     [SUCCESS]: (state, action) => {
         const result = action.payload;
         const { accuracy, currentPosition, heading, speed } = result;
-        const { distanceTravelled, lastPosition, routeCoordinates, topSpeed } = state;
+        const { distanceTravelled, lastPosition, routeCoordinates, speeds, topSpeed } = state;
+
+        const adjustedSpeed = speed < 0 ? 0 : speed;
+        const updatedSpeeds = speeds.concat([adjustedSpeed]);
 
         return Object.assign({}, state, {
             accuracy,
@@ -30,7 +34,8 @@ export default handleActions({
             lastPosition: currentPosition,
             routeCoordinates: routeCoordinates.concat([currentPosition]),
             speed,
-            topSpeed: topSpeed < speed ? speed : topSpeed
+            speeds: updatedSpeeds,
+            topSpeed: topSpeed < adjustedSpeed ? adjustedSpeed : topSpeed
         });
     }
 }, DEFAULT_STATE);

@@ -86,7 +86,7 @@ export class Odometer extends Component {
                     <View style={{ flexDirection:'row', flexWrap:'wrap' }}>
                         <View style={styles.valueContainer}>
                             <View style={{ position: 'relative' }}>
-                                <Text style={[styles.value, styles.valueBackground]}>0000.00</Text>
+                                <Text style={[styles.value, styles.valueBackground]}>8888.88</Text>
                                 <Text style={styles.value}>{this.renderValue()}</Text>
                             </View>
                         </View>

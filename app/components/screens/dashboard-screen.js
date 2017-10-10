@@ -7,7 +7,9 @@ import { LineChart } from '../line-chart';
 import PropTypes from 'prop-types';
 import { SidebarMenuToggle } from '../sidebar-menu-toggle';
 import { SignalStrength } from '../signal-strength';
+import { SmallGuage } from '../small-guage';
 import { Speedometer } from '../speedometer';
+import { Timer } from '../timer';
 import { Variables } from '../../assets/styles/variables';
 import { connect } from 'react-redux';
 import { toggleUnitMeasurement } from '../../ducks/unit-measurement';
@@ -31,24 +33,23 @@ const styles = StyleSheet.create({
 
 export class DashboardScreen extends Component {
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = { speed: 0, topSpeed: 0 };
-    // }
+    constructor(props) {
+        super(props);
+        this.state = { speed: 0, topSpeed: 59, speeds: [0, 20, 40, 1, 59, 0, 30, 10, 5, 1, 2, 3] };
+    }
 
-    // componentDidMount() {
-    //     setInterval(() => {
-    //         this.setState({
-    //             speed: Math.floor(Math.random() * 59),
-    //             topSpeed: Math.floor(Math.random() * 59),
-    //         });
-    //     }, 1000);
-    // }
+    componentDidMount() {
+        setInterval(() => {
+            this.setState({
+                speed: Math.floor(Math.random() * 59)
+            });
+        }, 1000);
+    }
 
     render() {
-        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
-        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
-        // const { speed, topSpeed } = this.state;
+        let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
+        // const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
+        const { speed, topSpeed, speeds } = this.state;
 
         return (
             <View style={[styles.container, style]}>
@@ -58,7 +59,7 @@ export class DashboardScreen extends Component {
                     onPress={toggleSidebarMenu}
                     style={styles.sidebarMenuToggle}
                 /> */}
-                <Compass heading={heading} style={{ flex: 3 }} />
+                {/* <Compass heading={heading} style={{ flex: 2 }} /> */}
                 <Speedometer
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
@@ -74,6 +75,25 @@ export class DashboardScreen extends Component {
                     topSpeed={topSpeed}
                     unit={unitMeasurement}
                 />
+                <View style={{ flex: 2, paddingHorizontal: Variables.spacer.base, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <SmallGuage
+                        unit={unitMeasurement}
+                        value={speed}
+                        label={'Avg'}
+                        color={Variables.colors.secondary}
+                    />
+                    <SmallGuage
+                        unit={unitMeasurement}
+                        value={topSpeed}
+                        label={'Max'}
+                        color={Variables.colors.secondary}
+                    />
+                    <Timer
+                        value={topSpeed}
+                        label={'Duration'}
+                        color={Variables.colors.secondary}
+                    />
+                </View>
             </View>
         );
     }

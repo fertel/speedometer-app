@@ -15,14 +15,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'transparent',
         bottom: 0,
-        flex: 1,
-        justifyContent: 'flex-start',
         left: 0,
         position: 'absolute',
-        right: 0,
-        top: 0
+        right: 0
     },
-    container: { flex: 1 }
+    container: { flex: 1, justifyContent: 'flex-end' }
 });
 
 export class Speedometer extends Component {
@@ -51,8 +48,8 @@ export class Speedometer extends Component {
                     <UnitSelector onPress={toggleUnitMeasurement} unit={unit} />
                     <Speed
                         color={speed > maxSpeed ? Variables.colors.danger : Variables.colors.white}
-                        value={speed}
                         unit={unit}
+                        value={speed}
                     />
                     <Odometer
                         onPress={() => setScreenIndex(SCREENS.ROUTE)}

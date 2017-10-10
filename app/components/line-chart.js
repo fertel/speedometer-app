@@ -16,10 +16,12 @@ const styles = StyleSheet.create({
         position: 'relative'
     },
     container: {
+        alignItems: 'center',
         flex: 1,
-        paddingHorizontal: Variables.spacer.base * 2
+        justifyContent: 'center',
+        paddingHorizontal: Variables.spacer.base
     },
-    chart: { marginLeft: -Variables.spacer.base / 2 - 3 },
+    chart: { marginLeft: - Variables.spacer.base / 2 - 3 },
     text: {
         backgroundColor: 'transparent',
         color: Variables.colors.white,
@@ -88,9 +90,9 @@ export class LineChart extends Component {
                         <MultiLineChart
                             Color={[color.string()]}
                             GraphHeight={graphHeight}
-                            GraphWidth={Variables.device.width - (Variables.spacer.base * 3)}
+                            GraphWidth={Variables.device.width - Variables.spacer.base * 1.5}
                             chartHeight={graphHeight + 5}
-                            chartWidth={Variables.device.width - (Variables.spacer.base * 3)}
+                            chartWidth={Variables.device.width - (Variables.spacer.base * 1.5)}
                             data={[this.formatSpeedDataForChart()]}
                             dataPointsVisible={false}
                             hideAxis
