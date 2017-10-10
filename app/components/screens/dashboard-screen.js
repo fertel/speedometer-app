@@ -88,7 +88,7 @@ export class DashboardScreen extends Component {
                         color={Variables.colors.secondary}
                         label={'Avg'}
                         unit={unitMeasurement}
-                        value={_.add(speeds)}
+                        value={_.mean(speeds)}
                     />
                     <SmallGuage
                         color={Variables.colors.secondary}
