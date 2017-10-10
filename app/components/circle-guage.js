@@ -70,7 +70,7 @@ export class CircleGuage extends Component {
     }
 
     renderSegments() {
-        const { colors, diameter, hasDangerZone, strokeWidth } = this.props;
+        const { dangerColor, diameter, lastColor, mixColor, startColor, strokeWidth } = this.props;
         const { currentPercentageFull } = this.state;
 
         const radius = diameter / 2;
@@ -84,26 +84,29 @@ export class CircleGuage extends Component {
 
         for (let index = 0; index < limit; index++) {
 
-            const startColor = colors[0];
-            const mixColor = colors[1];
+            if (!(index % 2)) {
 
-            let color = index < segmentsFull ? startColor.mix(mixColor, index * (1 / limit)) : Variables.colors.white.fade(0.9);
+                // TODO: This could be cleaned up
+                let color = mixColor ? startColor.mix(mixColor, index * (1 / limit)) : startColor;
 
-            if (hasDangerZone && index < segmentsFull && index > limit - 36) color = colors[2];
+                if (dangerColor && index < segmentsFull && index > limit - 36) color = dangerColor;
+                if (lastColor && index > segmentsFull - 18) color = lastColor;
+                if (index > segmentsFull) color = Variables.colors.white.fade(0.9);
 
-            if (!(index % 2)) results.push(
-                <Svg.Circle
-                    cx={'50%'}
-                    cy={'50%'}
-                    key={index}
-                    fill={'none'}
-                    r={radiusAdjusted}
-                    stroke={color.string()}
-                    strokeDasharray={[radiusShift, circumfrenceAdjusted]}
-                    strokeDashoffset={-radiusShift * index}
-                    strokeWidth={strokeWidth}
-                />
-            );
+                results.push(
+                    <Svg.Circle
+                        cx={'50%'}
+                        cy={'50%'}
+                        key={index}
+                        fill={'none'}
+                        r={radiusAdjusted}
+                        stroke={color.string()}
+                        strokeDasharray={[radiusShift, circumfrenceAdjusted]}
+                        strokeDashoffset={-radiusShift * index}
+                        strokeWidth={strokeWidth}
+                    />
+                );
+            }
         }
 
         return results;
@@ -123,21 +126,24 @@ export class CircleGuage extends Component {
 }
 
 CircleGuage.defaultProps = {
-    colors: [Variables.colors.secondary, Variables.colors.tertiary, Variables.colors.danger],
     diameter: 360,
     ease: 'quintInOut',
     hasDangerZone: false,
     percentageFull: 0,
     speed: 500,
+    startColor: Variables.colors.secondary,
     strokeWidth: 15
 };
 
 CircleGuage.propTypes = {
-    colors: PropTypes.array,
+    dangerColor: PropTypes.object,
     diameter: PropTypes.number,
     ease: PropTypes.string,
+    lastColor: PropTypes.object,
     hasDangerZone: PropTypes.bool,
+    mixColor: PropTypes.object,
     percentageFull: PropTypes.number,
     speed: PropTypes.number,
+    startColor: PropTypes.object,
     strokeWidth: PropTypes.number
 };

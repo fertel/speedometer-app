@@ -32,13 +32,14 @@ export class Speedometer extends Component {
                 <View style={styles.absolutePosition}>
                     <CircleGuage
                         diameter={380}
-                        hasDangerZone
+                        dangerColor={Variables.colors.danger}
                         percentageFull={speed / maxSpeed * 100}
                     />
                 </View>
                 <View style={styles.absolutePosition}>
                     <CircleGuage
-                        colors={[Variables.colors.warning, Variables.colors.danger, Variables.colors.danger]}
+                        startColor={Variables.colors.white}
+                        lastColor={Variables.colors.danger}
                         diameter={380}
                         percentageFull={topSpeed / maxSpeed * 100}
                         strokeWidth={8}
@@ -52,6 +53,7 @@ export class Speedometer extends Component {
                         value={speed}
                     />
                     <Odometer
+                        color={Variables.colors.secondary}
                         onPress={() => setScreenIndex(SCREENS.ROUTE)}
                         unit={unit}
                         value={distanceTravelled}

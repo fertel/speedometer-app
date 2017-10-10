@@ -9,7 +9,6 @@ import { Variables } from '../assets/styles/variables';
 const styles = StyleSheet.create({
     value: {
         backgroundColor: 'transparent',
-        color: Variables.colors.white,
         fontFamily: Variables.fonts.digital.regular,
         fontSize: Variables.fontSizes.medium * 1.3,
         lineHeight: Variables.lineHeights.medium * 1.3
@@ -77,7 +76,7 @@ export class Odometer extends Component {
     }
 
     render() {
-        const { unit, style, onPress } = this.props;
+        const { color, onPress, style, unit } = this.props;
         const unitLabel = unit === UNIT_MEASUREMENT.KILOMETERS ? 'km' : 'mi';
 
         return (
@@ -86,8 +85,8 @@ export class Odometer extends Component {
                     <View style={{ flexDirection:'row', flexWrap:'wrap' }}>
                         <View style={styles.valueContainer}>
                             <View style={{ position: 'relative' }}>
-                                <Text style={[styles.value, styles.valueBackground]}>8888.88</Text>
-                                <Text style={styles.value}>{this.renderValue()}</Text>
+                                <Text style={[styles.value, styles.valueBackground, { color }]}>8888.88</Text>
+                                <Text style={[styles.value, { color }]}>{this.renderValue()}</Text>
                             </View>
                         </View>
                         <View style={styles.unitContainer}>
@@ -101,12 +100,14 @@ export class Odometer extends Component {
 }
 
 Odometer.defaultProps = {
+    color: Variables.colors.white,
     onPress: () => {},
     unit: UNIT_MEASUREMENT.MILES,
     value: 0
 };
 
 Odometer.propTypes = {
+    color: PropTypes.object,
     onPress: PropTypes.func,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     unit: PropTypes.number,

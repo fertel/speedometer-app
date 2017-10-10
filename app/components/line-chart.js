@@ -77,7 +77,8 @@ export class LineChart extends Component {
 
         const chartMax = topSpeed > (MAX_SPEED / 3) ? topSpeed : (MAX_SPEED / 3);
         // const chartMax = MAX_SPEED;
-        const color = Variables.colors.secondary.mix(Variables.colors.warning, speed / chartMax);
+        // const color = Variables.colors.secondary.mix(Variables.colors.warning, speed / chartMax);
+        const color = Variables.colors.secondary;
         const graphHeight = 100;
 
         return (
