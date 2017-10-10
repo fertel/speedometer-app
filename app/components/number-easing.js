@@ -19,8 +19,8 @@ export class NumberEasing extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        const { value } = this.props;
         const { displayValue } = this.state;
-        const value = parseInt(this.props.value, 10);
 
         if (parseInt(nextProps.value, 10) === value) return;
 
@@ -35,14 +35,12 @@ export class NumberEasing extends Component {
 
     componentWillUnmount() {
         clearTimeout(this.timeout);
-        clearTimeout(this.delayTimeout);
     }
 
     updateNumber() {
-        const { ease, speed } = this.props;
+        const { ease, speed, value } = this.props;
         const { previousValue } = this.state;
 
-        const value = parseInt(this.props.value, 10);
         const now = (new Date()).getTime();
         const elapsedTime = Math.min(speed, (now - this.startAnimationTime));
         const progress = eases[ease](elapsedTime / speed);

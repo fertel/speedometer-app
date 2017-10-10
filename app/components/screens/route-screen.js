@@ -91,8 +91,7 @@ export class RouteScreen extends Component {
                     <MapView.Polyline
                         coordinates={routeCoordinates}
                         strokeWidth={Variables.spacer.base / 3}
-                        strokeColor={Variables.colors.tertiary.string()}
-                        miterLimit={50}
+                        strokeColor={Variables.colors.secondary.string()}
                         lineCap={'round'}
                     />
                 </MapView>

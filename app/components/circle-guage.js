@@ -32,9 +32,8 @@ export class CircleGuage extends Component {
     componentWillReceiveProps(nextProps) {
         const { currentPercentageFull } = this.state;
         const { percentageFull } = this.props;
-        const value = parseInt(percentageFull, 10);
 
-        if (nextProps.percentageFull === value) return;
+        if (nextProps.percentageFull === percentageFull) return;
 
         this.setState({ previousPercentageFull: currentPercentageFull });
         this.startAnimationTime = (new Date()).getTime();
@@ -47,25 +46,23 @@ export class CircleGuage extends Component {
 
     componentWillUnmount() {
         clearTimeout(this.timeout);
-        clearTimeout(this.delayTimeout);
     }
 
     updateNumber() {
         const { ease, speed, percentageFull } = this.props;
         const { previousPercentageFull } = this.state;
 
-        const value = parseInt(percentageFull, 10);
         const now = (new Date()).getTime();
         const elapsedTime = Math.min(speed, (now - this.startAnimationTime));
         const progress = eases[ease](elapsedTime / speed);
-        const currentDisplayValue = Math.round((value - previousPercentageFull) * progress + previousPercentageFull);
+        const currentDisplayValue = Math.round((percentageFull - previousPercentageFull) * progress + previousPercentageFull);
 
         this.setState({ currentPercentageFull: currentDisplayValue });
 
         if (elapsedTime < speed) {
             this.timeout = setTimeout(this.updateNumber, 16);
         } else {
-            this.setState({ previousPercentageFull: value });
+            this.setState({ previousPercentageFull: percentageFull });
         }
     }
 

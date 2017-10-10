@@ -11,6 +11,7 @@ import { SmallGuage } from '../small-guage';
 import { Speedometer } from '../speedometer';
 import { Timer } from '../timer';
 import { Variables } from '../../assets/styles/variables';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { toggleUnitMeasurement } from '../../ducks/unit-measurement';
 
@@ -18,6 +19,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Variables.colors.primary,
         flex: 1
+    },
+    compass: {
+        position: 'absolute',
+        right: Variables.spacer.base / 2,
+        top: Constants.statusBarHeight + Variables.spacer.base / 2
     },
     sidebarMenuToggle: {
         position: 'absolute',
@@ -41,6 +47,7 @@ export class DashboardScreen extends Component {
     // componentDidMount() {
     //     setInterval(() => {
     //         this.setState({
+    //             heading: Math.floor(Math.random() * 360),
     //             speed: Math.floor(Math.random() * 59),
     //             topSpeed: Math.floor(Math.random() * 59)
     //         });
@@ -48,19 +55,19 @@ export class DashboardScreen extends Component {
     // }
 
     render() {
-        // let { accuracy, distanceTravelled, heading, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
+        // let { accuracy, distanceTravelled, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
         const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
-        // const { speed, topSpeed, speeds } = this.state;
+        // const { speed, topSpeed, speeds, heading } = this.state;
 
         return (
             <View style={[styles.container, style]}>
                 <KeepAwake />
-                <SignalStrength accuracy={accuracy} style={styles.signalStrength} />
+                {/* <SignalStrength accuracy={accuracy} style={styles.signalStrength} /> */}
                 {/* <SidebarMenuToggle
                     onPress={toggleSidebarMenu}
                     style={styles.sidebarMenuToggle}
                 /> */}
-                {/* <Compass heading={heading} style={{ flex: 2 }} /> */}
+                <Compass heading={heading} style={styles.compass} />
                 <Speedometer
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
@@ -81,7 +88,7 @@ export class DashboardScreen extends Component {
                         color={Variables.colors.secondary}
                         label={'Avg'}
                         unit={unitMeasurement}
-                        value={speed}
+                        value={_.add(speeds)}
                     />
                     <SmallGuage
                         color={Variables.colors.secondary}
@@ -110,6 +117,7 @@ DashboardScreen.propTypes = {
     heading: PropTypes.number,
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
+    speeds: PropTypes.array,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     toggleSidebarMenu: PropTypes.func,
     toggleUnitMeasurement: PropTypes.func,

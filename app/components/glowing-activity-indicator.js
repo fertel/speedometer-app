@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     glowQuatrenary: {
         position: 'absolute',
-        shadowColor: Variables.colors.warning,
+        shadowColor: Variables.colors.secondary.rotate(40),
         shadowOffset: { width: 0, height: Variables.spacer.base / 3 }
     },
     shadow: {
