@@ -25,14 +25,22 @@ export default handleActions({
         const { distanceTravelled, lastPosition, routeCoordinates, speeds, topSpeed } = state;
         const adjustedSpeed = speed < 0 ? 0 : speed;
 
+        let updatedDistanceTraveled = distanceTravelled;
+        let updatedSpeeds = speeds;
+
+        if (calculateDistance(lastPosition, currentPosition) > 5) {
+            updatedDistanceTraveled = distanceTravelled + calculateDistance(lastPosition, currentPosition);
+            updatedSpeeds = speeds.concat([adjustedSpeed]);
+        }
+
         return Object.assign({}, state, {
             accuracy,
-            distanceTravelled: distanceTravelled + calculateDistance(lastPosition, currentPosition),
+            distanceTravelled: updatedDistanceTraveled,
             heading,
             lastPosition: currentPosition,
             routeCoordinates: routeCoordinates.concat([currentPosition]),
             speed,
-            speeds: speeds.concat([adjustedSpeed]),
+            speeds: updatedSpeeds,
             topSpeed: topSpeed < adjustedSpeed ? adjustedSpeed : topSpeed
         });
     }
