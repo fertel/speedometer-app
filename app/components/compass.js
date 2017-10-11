@@ -106,7 +106,7 @@ export class Compass extends Component {
     }
 
     renderSegments() {
-        const { color, diameter, strokeWidth } = this.props;
+        const { color, diameter, strokeWidth, heading } = this.props;
         const { currentHeadingPercentage } = this.state;
 
         const radius = diameter / 2;
@@ -125,10 +125,12 @@ export class Compass extends Component {
 
                 let strokeColor = Variables.colors.white.fade(0.9);
 
-                if (index > min && index < max
-                    || max - 100 > 0 && (index < max - 100 || index > min)
-                    || min < 0 && index > diameter + min) {
-                    strokeColor = color;
+                if (heading > -1) {
+                    if (index > min && index < max
+                        || max - 100 > 0 && (index < max - 100 || index > min)
+                        || min < 0 && index > diameter + min) {
+                        strokeColor = color;
+                    }
                 }
 
                 results.push(
