@@ -13,7 +13,7 @@ import { SidebarMenuContainer } from './sidebar-menu-container';
 import { TransitionContainer } from './transition-container';
 import { Variables } from '../assets/styles/variables';
 import { connect } from 'react-redux';
-import { watchPosition } from '../ducks/geolocation';
+import { getCurrentPosition } from '../ducks/geolocation';
 
 export const SCREENS = {
     PRELOADER: 0,
@@ -48,18 +48,19 @@ class App extends Component {
             screenIndex: SCREENS.PRELOADER
         };
 
+        this.watchCurrentPosition = null;
         this.setScreenIndex = this.setScreenIndex.bind(this);
         this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this);
     }
 
     componentWillMount() {
-        const { setModal, watchPosition } = this.props;
+        const { getCurrentPosition, setModal } = this.props;
 
         Permissions.askAsync(Permissions.LOCATION).then(response => {
             const { status } = response;
 
             if (status === 'granted') {
-                watchPosition();
+                this.watchCurrentPosition = setInterval(getCurrentPosition, 500);
             } else {
                 setModal({
                     heading: 'Allow Location Permissions',
@@ -84,6 +85,10 @@ class App extends Component {
                 });
             }, 1000);
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.watchCurrentPosition);
     }
 
     setScreenIndex(index) {
@@ -125,6 +130,7 @@ class App extends Component {
 }
 
 App.propTypes = {
+    getCurrentPosition: PropTypes.func,
     routeCoordinates: PropTypes.array,
     setModal: PropTypes.func,
     watchPosition: PropTypes.func
@@ -132,5 +138,5 @@ App.propTypes = {
 
 export default connect(
     state => Object.assign({}, state.geolocationDuck ),
-    Object.assign({}, { setModal, watchPosition })
+    Object.assign({}, { getCurrentPosition, setModal })
 )(App);

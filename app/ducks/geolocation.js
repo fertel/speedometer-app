@@ -23,7 +23,6 @@ export default handleActions({
         const result = action.payload;
         const { accuracy, currentPosition, heading, speed } = result;
         const { distanceTravelled, lastPosition, routeCoordinates, speeds, topSpeed } = state;
-
         const adjustedSpeed = speed < 0 ? 0 : speed;
 
         return Object.assign({}, state, {
@@ -41,13 +40,13 @@ export default handleActions({
 
 const geolocationSuccess = createAction(SUCCESS);
 
-export const watchPosition = () => dispatch => {
+export const getCurrentPosition = () => dispatch => {
 
     // TODO: Throw error modal if no geolocation
-    return Location.watchPositionAsync(GEOLOCATION_OPTIONS,
-        success => {
+    return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
+        .then(success => {
             const result = formatGeolocationSuccessResponse(success);
             return dispatch(geolocationSuccess(result));
-        }
-    );
+        })
+        .catch(error => console.log('Geolocation Error: ', error));
 };
