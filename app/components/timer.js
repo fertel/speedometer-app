@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     },
     valueBackground: {
         alignItems: 'center',
-        backgroundColor: Variables.colors.primary.darken(0.1),
+        backgroundColor: Variables.colors.primaryDark,
         borderRadius: Variables.border.radius,
         borderTopLeftRadius: Variables.border.radius,
         borderTopRightRadius: Variables.border.radius,

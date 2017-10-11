@@ -48,6 +48,8 @@ export const Variables = {
         googlePlus: Color('#f44336'),
         grey: Color('#333132').lighten(3.2),
         primary: Color('#262c42'),
+        primaryDark: Color('#262c42').darken(0.1),
+        primaryLight: Color('#262c42').lighten(0.3),
         quadrenary: Color('#ff66b2'),
         secondary: Color('#38f1e0'),
         success: Color('#18dc87'),

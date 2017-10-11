@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     valueContainer: {
-        backgroundColor: Variables.colors.primary.darken(0.1),
+        backgroundColor: Variables.colors.primaryDark,
         borderBottomLeftRadius: Variables.border.radius,
         borderTopLeftRadius: Variables.border.radius,
         paddingHorizontal: Variables.spacer.base / 4,
         paddingVertical: Variables.spacer.base / 8
     },
     unit: {
-        color: Variables.colors.primary.darken(0.1),
+        color: Variables.colors.primaryDark,
         fontFamily: Variables.fonts.sansSerif.bold,
         fontSize: Variables.fontSizes.medium,
         lineHeight: Variables.lineHeights.medium

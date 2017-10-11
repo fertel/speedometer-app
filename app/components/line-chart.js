@@ -11,7 +11,7 @@ import _ from 'lodash';
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: Variables.colors.primary.darken(0.1),
+        backgroundColor: Variables.colors.primaryDark,
         borderRadius: Variables.border.radius,
         position: 'relative'
     },

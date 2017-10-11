@@ -1,8 +1,10 @@
+import { MODAL_LEVELS, setModal } from '../ducks/modal';
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
 import { AdMobBanner } from 'expo';
 import DashboardScreen from './screens/dashboard-screen';
+import ModalOverlay from './modal-overlay';
 import { Permissions } from 'expo';
 import { PreloaderScreen } from './screens/preloader-screen';
 import PropTypes from 'prop-types';
@@ -51,11 +53,20 @@ class App extends Component {
     }
 
     componentWillMount() {
-        const { watchPosition } = this.props;
+        const { setModal, watchPosition } = this.props;
 
         Permissions.askAsync(Permissions.LOCATION).then(response => {
             const { status } = response;
-            if (status === 'granted') watchPosition();
+
+            if (status === 'granted') {
+                watchPosition();
+            } else {
+                setModal({
+                    heading: 'Allow Location Permissions',
+                    level: MODAL_LEVELS.ERROR,
+                    message: 'Your location is used to calculate speed, distance and route in "Speedometer & Route Tracker."  Please enable location services for this application.'
+                });
+            }
         });
     }
 
@@ -90,12 +101,13 @@ class App extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'} />
+                <ModalOverlay />
                 <SidebarMenuContainer menuOpen={menuOpen}>
                     <TransitionContainer setScreenIndex={this.setScreenIndex} screenIndex={screenIndex}>
                         <PreloaderScreen
                             loadingMessage={'Getting location...'}
                             style={styles.preloader}
-                            backgroundColor={Variables.colors.primary.darken(0.3)}
+                            backgroundColor={Variables.colors.primaryDark}
                         />
                         <DashboardScreen toggleSidebarMenu={this.toggleSidebarMenu} />
                         <RouteScreen />
@@ -114,10 +126,11 @@ class App extends Component {
 
 App.propTypes = {
     routeCoordinates: PropTypes.array,
+    setModal: PropTypes.func,
     watchPosition: PropTypes.func
 };
 
 export default connect(
     state => Object.assign({}, state.geolocationDuck ),
-    Object.assign({}, { watchPosition })
+    Object.assign({}, { setModal, watchPosition })
 )(App);

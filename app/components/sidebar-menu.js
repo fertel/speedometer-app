@@ -8,7 +8,7 @@ import { Variables } from '../assets/styles/variables';
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: Variables.colors.primary.darken(0.3),
+        backgroundColor: Variables.colors.primaryDark,
         flex: 1,
         justifyContent: 'center'
     }

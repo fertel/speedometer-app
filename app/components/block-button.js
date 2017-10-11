@@ -5,40 +5,47 @@ import PropTypes from 'prop-types';
 import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
-    buttonContainer: {
-        padding: Variables.spacer.base / 2,
-        alignSelf: 'stretch'
-    },
     container: {
-        alignSelf: 'stretch'
+        padding: Variables.spacer.base / 2,
+        borderWidth: Variables.border.width,
+        borderRadius: Variables.border.radius
     },
     text: {
         fontFamily: Variables.fonts.sansSerif.bold,
         fontSize: Variables.fontSizes.medium,
         lineHeight: Variables.lineHeights.medium,
-        textAlign: 'left'
+        textAlign: 'center'
     }
 });
 
-export class SidebarMenuButton extends Component {
+export class BlockButton extends Component {
 
     constructor(props) {
         super(props);
 
-        this.animate = this.animate.bind(this);
+        this.animateButton = this.animateButton.bind(this);
         this.getBackgroundColor = this.getBackgroundColor.bind(this);
         this.getTextColor = this.getTextColor.bind(this);
+        this.getTransform = this.getTransform.bind(this);
         this.onPress = this.onPress.bind(this);
     }
 
     componentWillMount() {
-        this.animation = new Animated.Value(0);
+        this.springAnimation = new Animated.Value(0);
+        this.timingAnimation = new Animated.Value(0);
     }
 
-    animate() {
-        this.animation.setValue(0);
+    animateButton() {
+        this.springAnimation.setValue(0);
+        this.timingAnimation.setValue(0);
 
-        Animated.timing(this.animation, {
+        Animated.spring(this.springAnimation, {
+            friction: 5,
+            tension: 100,
+            toValue: 2
+        }).start();
+
+        Animated.timing(this.timingAnimation, {
             duration: Variables.animations.durationBase,
             easing: Variables.animations.defaultEasing,
             toValue: 2
@@ -51,7 +58,7 @@ export class SidebarMenuButton extends Component {
         const fromValue = inverted ? Variables.colors.white : this.props.color;
         const toValue = inverted ? this.props.color : Variables.colors.white;
 
-        const backgroundColor = this.animation.interpolate({
+        const backgroundColor = this.timingAnimation.interpolate({
             inputRange: [0, 1, 2],
             outputRange: [
                 fromValue.rgb().string(),
@@ -69,7 +76,7 @@ export class SidebarMenuButton extends Component {
         const fromValue = inverted ? this.props.color : Variables.colors.white;
         const toValue = inverted ? Variables.colors.white : this.props.color;
 
-        const color = this.animation.interpolate({
+        const color = this.timingAnimation.interpolate({
             inputRange: [0, 1, 2],
             outputRange: [
                 fromValue.rgb().string(),
@@ -81,10 +88,19 @@ export class SidebarMenuButton extends Component {
         return { color };
     }
 
+    getTransform() {
+        const scale = this.springAnimation.interpolate({
+            inputRange: [0, 1, 2],
+            outputRange: [1, 1.2, 1]
+        });
+
+        return { transform: [{ scale }] };
+    }
+
     onPress() {
         const { onPress } = this.props;
 
-        this.animate();
+        this.animateButton();
         if (onPress) onPress();
     }
 
@@ -92,11 +108,12 @@ export class SidebarMenuButton extends Component {
         const { style, value, inverted, color } = this.props;
 
         return (
-            <View style={[styles.container, style]}>
+            <View style={style}>
                 <TouchableWithoutFeedback onPress={this.onPress}>
-                    <Animated.View style={[
-                        styles.buttonContainer,
-                        this.getBackgroundColor()
+                    <Animated.View style={[styles.container,
+                        { borderColor: inverted ? color : Variables.colors.white },
+                        this.getBackgroundColor(),
+                        this.getTransform()
                     ]}>
                         <Animated.Text style={[styles.text, this.getTextColor()]}>{value.toUpperCase()}</Animated.Text>
                     </Animated.View>
@@ -106,13 +123,13 @@ export class SidebarMenuButton extends Component {
     }
 }
 
-SidebarMenuButton.defaultProps = {
+BlockButton.defaultProps = {
     color: Variables.colors.black,
     inverted: false,
-    value: 'Button'
+    value: 'Submit'
 };
 
-SidebarMenuButton.propTypes = {
+BlockButton.propTypes = {
     color: PropTypes.object,
     inverted: PropTypes.bool,
     onPress: PropTypes.func,
