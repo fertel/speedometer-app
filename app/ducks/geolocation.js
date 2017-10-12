@@ -58,3 +58,14 @@ export const getCurrentPosition = () => dispatch => {
         })
         .catch(error => console.log('Geolocation Error: ', error));
 };
+
+export const watchCurrentPosition = () => dispatch => {
+
+    // TODO: Throw error modal if no geolocation
+    return Location.watchPositionAsync(GEOLOCATION_OPTIONS,
+        success => {
+            const result = formatGeolocationSuccessResponse(success);
+            return dispatch(geolocationSuccess(result));
+        }
+    );
+};
