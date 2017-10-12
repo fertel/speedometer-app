@@ -6,9 +6,9 @@ import { Variables } from '../assets/styles/variables';
 
 const styles = StyleSheet.create({
     container: {
-        padding: Variables.spacer.base / 2,
+        borderRadius: Variables.border.radius,
         borderWidth: Variables.border.width,
-        borderRadius: Variables.border.radius
+        padding: Variables.spacer.base / 2
     },
     text: {
         fontFamily: Variables.fonts.sansSerif.bold,

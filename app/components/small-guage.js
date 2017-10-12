@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
 import PropTypes from 'prop-types';
 import { Speed } from './speed';
@@ -40,30 +40,33 @@ const styles = StyleSheet.create({
 export class SmallGuage extends Component {
 
     render() {
-        const { style, unit, value, label, color } = this.props;
+        const { style, unit, value, label, color, onPress } = this.props;
 
         return (
-            <View style={[styles.container, style]}>
-                <View style={styles.valueBackground}>
-                    <Speed
-                        color={color}
-                        fontSize={Variables.fontSizes.medium * 2}
-                        lineHeight={Variables.fontSizes.medium * 2}
-                        unit={unit}
-                        value={value}
-                    />
+            <TouchableWithoutFeedback onPress={onPress} style={[styles.container, style]}>
+                <View>
+                    <View style={styles.valueBackground}>
+                        <Speed
+                            color={color}
+                            fontSize={Variables.fontSizes.medium * 2}
+                            lineHeight={Variables.fontSizes.medium * 2}
+                            unit={unit}
+                            value={value}
+                        />
+                    </View>
+                    <View style={styles.labelContainer}>
+                        <Text style={styles.label}>{label.toUpperCase()}</Text>
+                    </View>
                 </View>
-                <View style={styles.labelContainer}>
-                    <Text style={styles.label}>{label.toUpperCase()}</Text>
-                </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 }
 
 SmallGuage.defaultProps = {
     color: Variables.colors.white,
-    label: 'Lab.',
+    label: 'Lab',
+    onPress: () => {},
     unit: UNIT_MEASUREMENT.MILES,
     value: 0
 };
@@ -71,6 +74,7 @@ SmallGuage.defaultProps = {
 SmallGuage.propTypes = {
     color: PropTypes.object,
     label: PropTypes.string,
+    onPress: PropTypes.func,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     unit: PropTypes.number,
     value: PropTypes.number

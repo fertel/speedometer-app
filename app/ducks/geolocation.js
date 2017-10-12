@@ -1,3 +1,4 @@
+import { MODAL_LEVELS, closeModal, setModal } from './modal';
 import { createAction, handleActions } from 'redux-actions';
 
 import { GEOLOCATION_OPTIONS } from '../config/config';
@@ -16,9 +17,13 @@ const DEFAULT_STATE = {
     topSpeed: 0
 };
 
+const RESET_SPEEDS = 'geolocation/RESET_SPEEDS';
+const RESET_TOP_SPEED = 'geolocation/RESET_TOP_SPEED';
 const SUCCESS = 'geolocation/SUCCESS';
 
 export default handleActions({
+    [RESET_SPEEDS]: state => Object.assign({}, state, { speeds: DEFAULT_STATE.speeds }),
+    [RESET_TOP_SPEED]: state => Object.assign({}, state, { topSpeed: DEFAULT_STATE.topSpeed }),
     [SUCCESS]: (state, action) => {
         const result = action.payload;
         const { accuracy, currentPosition, heading, speed } = result;
@@ -46,26 +51,37 @@ export default handleActions({
     }
 }, DEFAULT_STATE);
 
-const geolocationSuccess = createAction(SUCCESS);
+export const geolocationSuccess = createAction(SUCCESS);
+export const resetSpeeds = createAction(RESET_SPEEDS);
+export const resetTopSpeed = createAction(RESET_TOP_SPEED);
 
-export const getCurrentPosition = () => dispatch => {
+// export const getCurrentPosition = () => dispatch => {
 
-    // TODO: Throw error modal if no geolocation
-    return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
-        .then(success => {
-            const result = formatGeolocationSuccessResponse(success);
-            return dispatch(geolocationSuccess(result));
-        })
-        .catch(error => console.log('Geolocation Error: ', error));
-};
+//     // TODO: Throw error modal if no geolocation
+//     return Location.getCurrentPositionAsync(GEOLOCATION_OPTIONS)
+//         .then(success => {
+//             const result = formatGeolocationSuccessResponse(success);
+//             return dispatch(geolocationSuccess(result));
+//         })
+//         .catch(error => console.log('Geolocation Error: ', error));
+// };
 
 export const watchCurrentPosition = () => dispatch => {
 
-    // TODO: Throw error modal if no geolocation
     return Location.watchPositionAsync(GEOLOCATION_OPTIONS,
         success => {
+            dispatch(closeModal());
+
             const result = formatGeolocationSuccessResponse(success);
             return dispatch(geolocationSuccess(result));
+        },
+        error => {
+            setModal({
+                hasLoadIndicator: true,
+                heading: 'Difficulty Finding Location',
+                level: MODAL_LEVELS.ERROR,
+                message: 'Please wait while we try again...'
+            });
         }
     );
 };

@@ -2,6 +2,7 @@ import { Animated, Dimensions, StyleSheet, Text, TouchableWithoutFeedback, View 
 import React, { Component } from 'react';
 
 import { BlockButton } from './block-button';
+import { GlowingActivityIndicator } from './glowing-activity-indicator';
 import { MODAL_LEVELS } from '../ducks/modal';
 import PropTypes from 'prop-types';
 import { Variables } from '../assets/styles/variables';
@@ -11,6 +12,10 @@ import { connect } from 'react-redux';
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+    activityIndictator: {
+        alignSelf: 'center',
+        marginVertical: Variables.spacer.base
+    },
     buttonContainer: { padding: Variables.spacer.base / 4 },
     container: {
         alignItems: 'center',
@@ -39,7 +44,7 @@ const styles = StyleSheet.create({
             height: Variables.spacer.base / 6,
             width: 0
         },
-        shadowOpacity: 0.3,
+        shadowOpacity: 0.5,
         shadowRadius: Variables.spacer.base / 2,
         width: width - Variables.spacer.base * 4
     },
@@ -64,6 +69,7 @@ class ModalOverlay extends Component {
         this.getOpacity = this.getOpacity.bind(this);
         this.getLevelColor = this.getLevelColor.bind(this);
         this.handleButtonPress = this.handleButtonPress.bind(this);
+        this.handleOnPress = this.handleOnPress.bind(this);
     }
 
     componentWillMount() {
@@ -117,8 +123,13 @@ class ModalOverlay extends Component {
         closeModal();
     }
 
+    handleOnPress() {
+        const { closeModal } = this.props;
+        closeModal();
+    }
+
     render() {
-        const { backgroundColor, backgroundFade, modalButtonFunction, modalButtonLabel, modalHeading, modalIsActive, modalMessage, style, zIndex } = this.props;
+        const { backgroundColor, backgroundFade, modalButtonFunction, modalButtonLabel, modalHasLoadIndicator, modalHeading, modalIsActive, modalMessage, style, zIndex } = this.props;
 
         return (
             <TouchableWithoutFeedback disabled={!modalIsActive} onPress={this.handleOnPress}>
@@ -140,6 +151,9 @@ class ModalOverlay extends Component {
                         <View style={styles.textContainer}>
                             <Text style={styles.text}>{modalMessage}</Text>
                         </View>
+                        {modalHasLoadIndicator &&
+                            <GlowingActivityIndicator style={styles.activityIndictator} />
+                        }
                         {modalButtonFunction &&
                             <View style={styles.buttonContainer}>
                                 <BlockButton
@@ -159,6 +173,7 @@ class ModalOverlay extends Component {
 ModalOverlay.defaultProps = {
     backgroundColor: Variables.colors.primary,
     backgroundFade: 0.3,
+    modalHasLoadIndicator: false,
     modalHeading: 'Heading',
     modalIsActive: false,
     modalLevel: MODAL_LEVELS.WARNING,
@@ -172,6 +187,7 @@ ModalOverlay.propTypes = {
     closeModal: PropTypes.func,
     modalButtonFunction: PropTypes.func,
     modalButtonLabel: PropTypes.string,
+    modalHasLoadIndicator: PropTypes.bool,
     modalHeading: PropTypes.string,
     modalIsActive: PropTypes.bool,
     modalLevel: PropTypes.number,

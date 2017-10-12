@@ -1,6 +1,7 @@
 import { Constants, KeepAwake } from 'expo';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { resetSpeeds, resetTopSpeed } from '../../ducks/geolocation';
 
 import { Compass } from '../compass';
 import { LineChart } from '../line-chart';
@@ -9,10 +10,12 @@ import { SidebarMenuToggle } from '../sidebar-menu-toggle';
 import { SignalStrength } from '../signal-strength';
 import { SmallGuage } from '../small-guage';
 import { Speedometer } from '../speedometer';
-import { Timer } from '../timer';
+import Timer from '../timer';
 import { Variables } from '../../assets/styles/variables';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { setModal } from '../../ducks/modal';
+import { timerReset } from '../../ducks/timer';
 import { toggleUnitMeasurement } from '../../ducks/unit-measurement';
 
 const styles = StyleSheet.create({
@@ -39,10 +42,14 @@ const styles = StyleSheet.create({
 
 export class DashboardScreen extends Component {
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = { speed: 0, topSpeed: 0, speeds: [0, 20, 40, 1, 59, 0, 30, 10, 5, 1, 2, 3] };
-    // }
+    constructor(props) {
+        super(props);
+        // this.state = { speed: 0, topSpeed: 0, speeds: [0, 20, 40, 1, 59, 0, 30, 10, 5, 1, 2, 3] };
+
+        this.openAverageResetModal = this.openAverageResetModal.bind(this);
+        this.openMaxResetModal = this.openMaxResetModal.bind(this);
+        this.openTimerResetModal = this.openTimerResetModal.bind(this);
+    }
 
     // componentDidMount() {
     //     setInterval(() => {
@@ -53,6 +60,39 @@ export class DashboardScreen extends Component {
     //         });
     //     }, 1000);
     // }
+
+    openAverageResetModal() {
+        const { resetSpeeds, setModal } = this.props;
+
+        setModal({
+            buttonFunction: resetSpeeds,
+            buttonLabel: 'Reset Average',
+            heading: 'Reset Average Speed',
+            message: 'Do you want to reset your average speed?'
+        });
+    }
+
+    openMaxResetModal() {
+        const { resetTopSpeed, setModal } = this.props;
+
+        setModal({
+            buttonFunction: resetTopSpeed,
+            buttonLabel: 'Reset Max',
+            heading: 'Reset Max Speed',
+            message: 'Do you want to reset your maximum speed?'
+        });
+    }
+
+    openTimerResetModal() {
+        const { timerReset, setModal } = this.props;
+
+        setModal({
+            buttonFunction: timerReset,
+            buttonLabel: 'Reset Timer',
+            heading: 'Reset Timer',
+            message: 'Do you want to reset your timer?'
+        });
+    }
 
     render() {
         // let { accuracy, distanceTravelled, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
@@ -87,18 +127,21 @@ export class DashboardScreen extends Component {
                     <SmallGuage
                         color={Variables.colors.secondary}
                         label={'Avg'}
+                        onPress={this.openAverageResetModal}
                         unit={unitMeasurement}
                         value={_.mean(speeds)}
                     />
                     <SmallGuage
                         color={Variables.colors.secondary}
                         label={'Max'}
+                        onPress={this.openMaxResetModal}
                         unit={unitMeasurement}
                         value={topSpeed}
                     />
                     <Timer
                         color={Variables.colors.secondary}
                         label={'Duration'}
+                        onPress={this.openTimerResetModal}
                         value={topSpeed}
                     />
                 </View>
@@ -115,10 +158,14 @@ DashboardScreen.propTypes = {
     accuracy: PropTypes.number,
     distanceTravelled: PropTypes.number,
     heading: PropTypes.number,
+    resetSpeeds: PropTypes.func,
+    resetTopSpeed: PropTypes.func,
+    setModal: PropTypes.func,
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     speeds: PropTypes.array,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
+    timerReset: PropTypes.func,
     toggleSidebarMenu: PropTypes.func,
     toggleUnitMeasurement: PropTypes.func,
     topSpeed: PropTypes.number,
@@ -131,6 +178,10 @@ export default connect(
         state.unitMeasurementDuck
     ),
     Object.assign({}, {
-        toggleUnitMeasurement,
+        resetSpeeds,
+        resetTopSpeed,
+        setModal,
+        timerReset,
+        toggleUnitMeasurement
     })
 )(DashboardScreen);

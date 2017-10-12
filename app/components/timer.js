@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
 import PropTypes from 'prop-types';
 import { Variables } from '../assets/styles/variables';
+import { connect } from 'react-redux';
 import { formatSecondsToTime } from '../util/format-seconds-to-time';
+import { startTimer } from '../ducks/timer';
 
 const styles = StyleSheet.create({
     container: { position: 'relative' },
@@ -49,48 +51,49 @@ const styles = StyleSheet.create({
 
 export class Timer extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { secondsElapsed: 0 };
-
-        this.incrementer = null;
-    }
-
     componentDidMount() {
-        this.incrementer = setInterval(() => this.setState({ secondsElapsed: this.state.secondsElapsed + 1 }), 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.incrementer);
+        const { startTimer } = this.props;
+        startTimer();
     }
 
     render() {
-        const { style, label, color } = this.props;
-        const { secondsElapsed } = this.state;
+        const { color, label, onPress, style, timerSecondsElapsed } = this.props;
 
         return (
-            <View style={[styles.container, style]}>
-                <View style={styles.valueBackground}>
-                    <View style={styles.timeContainer}>
-                        <Text style={[styles.time, styles.timeBackground, { color }]}>88:88</Text>
-                        <Text style={[styles.time, styles.timeForeground, { color }]}>{formatSecondsToTime(secondsElapsed)}</Text>
+            <TouchableWithoutFeedback onPress={onPress} style={[styles.container, style]}>
+                <View>
+                    <View style={styles.valueBackground}>
+                        <View style={styles.timeContainer}>
+                            <Text style={[styles.time, styles.timeBackground, { color }]}>88:88</Text>
+                            <Text style={[styles.time, styles.timeForeground, { color }]}>{formatSecondsToTime(timerSecondsElapsed)}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.labelContainer}>
+                        <Text style={styles.label}>{label.toUpperCase()}</Text>
                     </View>
                 </View>
-                <View style={styles.labelContainer}>
-                    <Text style={styles.label}>{label.toUpperCase()}</Text>
-                </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 }
 
 Timer.defaultProps = {
     color: Variables.colors.white,
-    label: 'Lab'
+    label: 'Lab',
+    onPress: () => {},
+    timerSecondsElapsed: 0
 };
 
 Timer.propTypes = {
     color: PropTypes.object,
     label: PropTypes.string,
-    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ])
+    onPress: PropTypes.func,
+    startTimer: PropTypes.func,
+    style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
+    timerSecondsElapsed: PropTypes.number
 };
+
+export default connect(
+    state => Object.assign({}, state.timerDuck ),
+    Object.assign({}, { startTimer })
+)(Timer);
