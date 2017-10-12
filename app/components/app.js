@@ -48,13 +48,12 @@ class App extends Component {
             screenIndex: SCREENS.PRELOADER
         };
 
-        this.watchCurrentPosition = null;
         this.setScreenIndex = this.setScreenIndex.bind(this);
         this.toggleSidebarMenu = this.toggleSidebarMenu.bind(this);
     }
 
     componentWillMount() {
-        const { watchCurrentPosition, setModal } = this.props;
+        const { setModal, watchCurrentPosition } = this.props;
 
         Permissions.askAsync(Permissions.LOCATION).then(response => {
             const { status } = response;
@@ -126,9 +125,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-    getCurrentPosition: PropTypes.func,
     routeCoordinates: PropTypes.array,
     setModal: PropTypes.func,
+    watchCurrentPosition: PropTypes.func,
     watchPosition: PropTypes.func
 };
 
