@@ -108,6 +108,7 @@ export class RouteScreen extends Component {
 }
 
 RouteScreen.defaultProps = {
+    distanceTravelled: 0,
     routeCoordinates: []
 };
 
@@ -127,4 +128,3 @@ export default connect(
     ),
     Object.assign({}, {})
 )(RouteScreen);
-

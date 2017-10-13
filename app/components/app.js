@@ -14,6 +14,7 @@ import { SidebarMenuContainer } from './sidebar-menu-container';
 import { TransitionContainer } from './transition-container';
 import { Variables } from '../assets/styles/variables';
 import { connect } from 'react-redux';
+import { listenToAcceleration }  from '../ducks/acceleration';
 import { watchCurrentPosition } from '../ducks/geolocation';
 
 export const SCREENS = {
@@ -54,12 +55,13 @@ class App extends Component {
     }
 
     componentWillMount() {
-        const { setModal, startTimer, watchCurrentPosition } = this.props;
+        const { listenToAcceleration, setModal, startTimer, watchCurrentPosition } = this.props;
 
         Permissions.askAsync(Permissions.LOCATION).then(response => {
             const { status } = response;
 
             if (status === 'granted') {
+                listenToAcceleration();
                 startTimer();
                 watchCurrentPosition();
             } else {
@@ -132,6 +134,7 @@ class App extends Component {
 }
 
 App.propTypes = {
+    listenToAcceleration: PropTypes.func,
     routeCoordinates: PropTypes.array,
     setModal: PropTypes.func,
     startTimer: PropTypes.func,
@@ -142,5 +145,5 @@ App.propTypes = {
 
 export default connect(
     state => Object.assign({}, state.geolocationDuck ),
-    Object.assign({}, { setModal, startTimer, stopTimer, watchCurrentPosition })
+    Object.assign({}, { listenToAcceleration, setModal, startTimer, stopTimer, watchCurrentPosition })
 )(App);
