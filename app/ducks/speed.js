@@ -1,5 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
 
+import { ACCELEROMETER_UPDATE_INTERVAL } from '../config/config';
+import { convertMillisecondsToSeconds } from '../util/convert-milliseconds-to-seconds';
+import { getTotalAcceleration } from '../util/get-total-acceleration';
 import { store } from '../../main';
 
 const DEFAULT_STATE = {
@@ -35,16 +38,19 @@ export const updateSpeedSuccess = createAction(SUCCESS);
 export const updateSpeed = () => dispatch => {
 
     const { geolocationTimestamp, geolocationSpeed } = store.getState().geolocationDuck;
-    const { accelerationSpeed } = store.getState().accelerationDuck;
+    const { accelerationMatrix } = store.getState().accelerationDuck;
     const { lastCalculatedSpeed, lastGeolocationTimestamp, speeds, topSpeed } = store.getState().speedDuck;
 
+    const updateInterval = convertMillisecondsToSeconds(ACCELEROMETER_UPDATE_INTERVAL);
     let updatedSpeed;
 
     if (geolocationTimestamp > lastGeolocationTimestamp) {
         updatedSpeed = geolocationSpeed;
     } else {
-        updatedSpeed = accelerationSpeed + geolocationSpeed;
+        updatedSpeed = (updateInterval * getTotalAcceleration(accelerationMatrix)) + lastCalculatedSpeed;
     }
+
+    updatedSpeed = updatedSpeed > 0 ? updatedSpeed : 0;
 
     const updatedSpeeds = speeds.concat([updatedSpeed]);
     const updatedTopSpeed = updatedSpeed > topSpeed ? updatedSpeed : topSpeed;
