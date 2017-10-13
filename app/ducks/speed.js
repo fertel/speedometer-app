@@ -47,7 +47,7 @@ export const updateSpeed = () => dispatch => {
     if (geolocationTimestamp > lastGeolocationTimestamp) {
         updatedSpeed = geolocationSpeed;
     } else {
-        updatedSpeed = (updateInterval * getTotalAcceleration(accelerationMatrix)) + lastCalculatedSpeed;
+        updatedSpeed = (updateInterval * getTotalAcceleration(accelerationMatrix)) + geolocationSpeed;
     }
 
     updatedSpeed = updatedSpeed > 0 ? updatedSpeed : 0;

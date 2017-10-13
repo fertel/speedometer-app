@@ -44,22 +44,12 @@ export class DashboardScreen extends Component {
 
     constructor(props) {
         super(props);
-        // this.state = { speed: 0, topSpeed: 0, speeds: [0, 20, 40, 1, 59, 0, 30, 10, 5, 1, 2, 3] };
 
         this.openAverageResetModal = this.openAverageResetModal.bind(this);
         this.openMaxResetModal = this.openMaxResetModal.bind(this);
         this.openresetTimerModal = this.openresetTimerModal.bind(this);
     }
 
-    // componentDidMount() {
-    //     setInterval(() => {
-    //         this.setState({
-    //             heading: Math.floor(Math.random() * 360),
-    //             speed: Math.floor(Math.random() * 59),
-    //             topSpeed: Math.floor(Math.random() * 59)
-    //         });
-    //     }, 1000);
-    // }
 
     openAverageResetModal() {
         const { resetSpeeds, setModal } = this.props;
@@ -95,9 +85,7 @@ export class DashboardScreen extends Component {
     }
 
     render() {
-        // let { accuracy, distanceTravelled, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
         const { accuracy, distanceTravelled, heading, setScreenIndex, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement, lastCalculatedSpeed } = this.props;
-        // const { speed, topSpeed, speeds, heading } = this.state;
 
         return (
             <View style={[styles.container, style]}>
