@@ -1,7 +1,7 @@
 // Not sure why I'm using 0.8, but this guy seemed pretty confident in it ¯\_(ツ)_/¯
 // http://blog.contus.com/how-to-measure-acceleration-in-smartphones-using-accelerometer/
 const alpha = 0.8;
-const gravity = [0, 0, 1.0];
+const gravity = [0, 0, 0];
 
 export const removeGravityFromAccelerationMatrix = accelerationMatrix => {
     gravity[0] = alpha * gravity[0] + (1 - alpha) * accelerationMatrix.x;
