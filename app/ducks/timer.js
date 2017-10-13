@@ -18,9 +18,14 @@ export default handleActions(
     DEFAULT_STATE
 );
 
-export const timerUpdate = createAction(UPDATE);
-export const timerReset = createAction(RESET);
+export const updateTimer = createAction(UPDATE);
+export const resetTimer = createAction(RESET);
 
 export const startTimer = () => dispatch => {
-    timer = setInterval(() => dispatch(timerUpdate()), 1000);
+    timer = setInterval(() => dispatch(updateTimer()), 1000);
+};
+
+export const stopTimer = () => dispatch => {
+    dispatch(resetTimer());
+    clearInterval(timer);
 };

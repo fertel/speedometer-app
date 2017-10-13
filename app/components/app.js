@@ -1,6 +1,7 @@
 import { MODAL_LEVELS, setModal } from '../ducks/modal';
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
+import { startTimer, stopTimer } from '../ducks/timer';
 
 import { AdMobBanner } from 'expo';
 import DashboardScreen from './screens/dashboard-screen';
@@ -53,12 +54,13 @@ class App extends Component {
     }
 
     componentWillMount() {
-        const { setModal, watchCurrentPosition } = this.props;
+        const { setModal, startTimer, watchCurrentPosition } = this.props;
 
         Permissions.askAsync(Permissions.LOCATION).then(response => {
             const { status } = response;
 
             if (status === 'granted') {
+                startTimer();
                 watchCurrentPosition();
             } else {
                 setModal({
@@ -84,6 +86,11 @@ class App extends Component {
                 });
             }, 1000);
         }
+    }
+
+    componentWillUnmount() {
+        const { stopTimer } = this.props;
+        stopTimer();
     }
 
     setScreenIndex(index) {
@@ -127,11 +134,13 @@ class App extends Component {
 App.propTypes = {
     routeCoordinates: PropTypes.array,
     setModal: PropTypes.func,
+    startTimer: PropTypes.func,
+    stopTimer: PropTypes.func,
     watchCurrentPosition: PropTypes.func,
     watchPosition: PropTypes.func
 };
 
 export default connect(
     state => Object.assign({}, state.geolocationDuck ),
-    Object.assign({}, { setModal, watchCurrentPosition })
+    Object.assign({}, { setModal, startTimer, stopTimer, watchCurrentPosition })
 )(App);

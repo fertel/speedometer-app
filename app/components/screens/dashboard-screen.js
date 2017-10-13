@@ -14,8 +14,8 @@ import Timer from '../timer';
 import { Variables } from '../../assets/styles/variables';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { resetTimer } from '../../ducks/timer';
 import { setModal } from '../../ducks/modal';
-import { timerReset } from '../../ducks/timer';
 import { toggleUnitMeasurement } from '../../ducks/unit-measurement';
 
 const styles = StyleSheet.create({
@@ -48,7 +48,7 @@ export class DashboardScreen extends Component {
 
         this.openAverageResetModal = this.openAverageResetModal.bind(this);
         this.openMaxResetModal = this.openMaxResetModal.bind(this);
-        this.openTimerResetModal = this.openTimerResetModal.bind(this);
+        this.openresetTimerModal = this.openresetTimerModal.bind(this);
     }
 
     // componentDidMount() {
@@ -83,11 +83,11 @@ export class DashboardScreen extends Component {
         });
     }
 
-    openTimerResetModal() {
-        const { timerReset, setModal } = this.props;
+    openresetTimerModal() {
+        const { resetTimer, setModal } = this.props;
 
         setModal({
-            buttonFunction: timerReset,
+            buttonFunction: resetTimer,
             buttonLabel: 'Reset Timer',
             heading: 'Reset Timer',
             message: 'Do you want to reset your timer?'
@@ -141,7 +141,7 @@ export class DashboardScreen extends Component {
                     <Timer
                         color={Variables.colors.secondary}
                         label={'Duration'}
-                        onPress={this.openTimerResetModal}
+                        onPress={this.openresetTimerModal}
                         value={topSpeed}
                     />
                 </View>
@@ -159,13 +159,13 @@ DashboardScreen.propTypes = {
     distanceTravelled: PropTypes.number,
     heading: PropTypes.number,
     resetSpeeds: PropTypes.func,
+    resetTimer: PropTypes.func,
     resetTopSpeed: PropTypes.func,
     setModal: PropTypes.func,
     setScreenIndex: PropTypes.func,
     speed: PropTypes.number,
     speeds: PropTypes.array,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
-    timerReset: PropTypes.func,
     toggleSidebarMenu: PropTypes.func,
     toggleUnitMeasurement: PropTypes.func,
     topSpeed: PropTypes.number,
@@ -181,7 +181,7 @@ export default connect(
         resetSpeeds,
         resetTopSpeed,
         setModal,
-        timerReset,
+        resetTimer,
         toggleUnitMeasurement
     })
 )(DashboardScreen);

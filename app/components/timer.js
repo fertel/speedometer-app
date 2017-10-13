@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Variables } from '../assets/styles/variables';
 import { connect } from 'react-redux';
 import { formatSecondsToTime } from '../util/format-seconds-to-time';
-import { startTimer } from '../ducks/timer';
 
 const styles = StyleSheet.create({
     container: { position: 'relative' },
@@ -51,13 +50,30 @@ const styles = StyleSheet.create({
 
 export class Timer extends Component {
 
-    componentDidMount() {
-        const { startTimer } = this.props;
-        startTimer();
+    constructor(props) {
+        super(props);
+        this.state = { colonVisible: true };
+
+        this.blink = this.blink.bind(this);
+    }
+
+    componentWillMount() {
+        this.blink = setInterval(this.blink, 750);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.blink);
+    }
+
+    blink() {
+        this.setState(previousState => {
+            return { colonVisible: !previousState.colonVisible };
+        });
     }
 
     render() {
         const { color, label, onPress, style, timerSecondsElapsed } = this.props;
+        const { colonVisible } = this.state;
 
         return (
             <TouchableWithoutFeedback onPress={onPress} style={[styles.container, style]}>
@@ -65,6 +81,7 @@ export class Timer extends Component {
                     <View style={styles.valueBackground}>
                         <View style={styles.timeContainer}>
                             <Text style={[styles.time, styles.timeBackground, { color }]}>88:88</Text>
+                            {colonVisible && <Text style={[styles.time, styles.timeForeground, { color }]}>{'\u00a0\u00a0:\u00a0\u00a0'}</Text>}
                             <Text style={[styles.time, styles.timeForeground, { color }]}>{formatSecondsToTime(timerSecondsElapsed)}</Text>
                         </View>
                     </View>
@@ -95,5 +112,5 @@ Timer.propTypes = {
 
 export default connect(
     state => Object.assign({}, state.timerDuck ),
-    Object.assign({}, { startTimer })
+    Object.assign({}, {})
 )(Timer);
