@@ -1,7 +1,7 @@
 import { Constants, KeepAwake } from 'expo';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { resetSpeeds, resetTopSpeed } from '../../ducks/geolocation';
+import { resetSpeeds, resetTopSpeed } from '../../ducks/speed';
 
 import { Compass } from '../compass';
 import { LineChart } from '../line-chart';
@@ -96,7 +96,7 @@ export class DashboardScreen extends Component {
 
     render() {
         // let { accuracy, distanceTravelled, setScreenIndex, unitMeasurement, style, toggleUnitMeasurement, toggleSidebarMenu } = this.props;
-        const { accuracy, distanceTravelled, heading, setScreenIndex, speed, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement } = this.props;
+        const { accuracy, distanceTravelled, heading, setScreenIndex, speeds, style, toggleSidebarMenu, toggleUnitMeasurement, topSpeed, unitMeasurement, lastCalculatedSpeed } = this.props;
         // const { speed, topSpeed, speeds, heading } = this.state;
 
         return (
@@ -111,14 +111,14 @@ export class DashboardScreen extends Component {
                 <Speedometer
                     distanceTravelled={distanceTravelled}
                     setScreenIndex={setScreenIndex}
-                    speed={speed}
+                    speed={lastCalculatedSpeed}
                     style={{ flex: 8 }}
                     toggleUnitMeasurement={toggleUnitMeasurement}
                     topSpeed={topSpeed}
                     unit={unitMeasurement}
                 />
                 <LineChart
-                    speed={speed}
+                    speed={lastCalculatedSpeed}
                     style={{ flex: 3 }}
                     topSpeed={topSpeed}
                     unit={unitMeasurement}
@@ -151,19 +151,22 @@ export class DashboardScreen extends Component {
 }
 
 DashboardScreen.defaultProps = {
-
+    distanceTravelled: 0,
+    lastCalculatedSpeed: 0,
+    speeds: [0],
+    topSpeed: 0
 };
 
 DashboardScreen.propTypes = {
     accuracy: PropTypes.number,
     distanceTravelled: PropTypes.number,
     heading: PropTypes.number,
+    lastCalculatedSpeed: PropTypes.number,
     resetSpeeds: PropTypes.func,
     resetTimer: PropTypes.func,
     resetTopSpeed: PropTypes.func,
     setModal: PropTypes.func,
     setScreenIndex: PropTypes.func,
-    speed: PropTypes.number,
     speeds: PropTypes.array,
     style: PropTypes.oneOfType([ PropTypes.number, PropTypes.object ]),
     toggleSidebarMenu: PropTypes.func,
@@ -175,13 +178,14 @@ DashboardScreen.propTypes = {
 export default connect(
     state => Object.assign({},
         state.geolocationDuck,
+        state.speedDuck,
         state.unitMeasurementDuck
     ),
     Object.assign({}, {
         resetSpeeds,
+        resetTimer,
         resetTopSpeed,
         setModal,
-        resetTimer,
         toggleUnitMeasurement
     })
 )(DashboardScreen);
